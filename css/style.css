@@ -1,0 +1,262 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Inter', sans-serif;
+}
+
+.structure-container {
+    display: flex;
+    height: auto;
+    min-height: 90vh;
+}
+
+.sidebar-left {
+    width: 25vw;
+}
+
+.body-templates {
+    width: 50vw;
+}
+
+.sidebar-right {
+    width: 25vw;
+}
+
+.create-template {
+    color: #464646;
+    background-color: white;
+    display: flex;
+    border-radius: 15px;
+    margin: 15px auto
+}
+
+.template-icon {
+    width: 20px;
+    height: 20px;
+    margin: auto 5px;
+}
+
+.templateBtn {
+    font-size: 12px;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.form {
+    display: none;
+    position: fixed;
+    left: 50%;
+    margin-top: 100px;
+    transform: translateX(-50%);
+    background-color: #ffffff;
+    border: 1px solid #464646;
+    width: 300px;
+    height: 400px;
+    padding: 5px 30px;
+    flex-direction: column;
+    border-radius: 15px;
+    color: #464646;
+}
+
+.form.active {
+    display: block;
+}
+
+.formSubtitle {
+    font-size: 15px;
+    margin-bottom: 0px;
+}
+
+.form input {
+    width: 285px;
+    border: 1px solid #464646;
+    border-radius: 5px;
+    height: 30px;
+    padding-left: 10px;
+    color: #464646;
+}
+
+.form input::placeholder {
+    font-size: 15px;
+}
+
+.dropdownBtn {
+    width: 100%;
+    height: 30px;
+    border: 1px solid #464646;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #464646;
+    text-align: left;
+    font-size: 15px;
+    padding-left: 10px;
+    z-index: 100;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.options {
+    width: 100%;
+    display: none;
+    position: absolute;
+    top: 110%;
+    left: 0px;
+    background-color: white;
+    border: 1px solid #464646;
+    border-radius: 3px;
+    z-index: 2;
+}
+
+.optn {
+    display: flex;
+    text-decoration: none;
+    padding: 3px 10px;
+    border-top: 1px solid #464646;
+    gap: 10px;
+    align-items: center;
+}
+
+.options a:first-child {
+    border-top: 0;
+}
+
+.options.active {
+    display: flex;
+    flex-direction: column;
+}
+
+.prev {
+    color: #464646;
+    font-size: 15px;
+    font-weight: normal;
+}
+
+.desc {
+    font-size: 11px;
+    color: #000000;
+    font-weight: bold;
+}
+
+.optn.current {
+    background-color: #dbdbdb;
+}
+
+.colors {
+    display: flex;
+    grid-template-columns: repeat(6r, 100px);
+    gap: 10px;
+}
+
+.color {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #000000;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.color.selected {
+    width: 23px;
+    height: 23px;
+}
+
+.template-demo {
+    margin-top: 30px;
+}
+
+.templateCard {
+    width: 300px;
+    max-width: 300px;
+    height: 100px;
+    background-color: white;
+    border: 1px solid #464646;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+.backgroundColor {
+    width: 100%;
+    height: 50px;
+    border-radius: 10px 10px 0px 0px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.templateIcon {
+    width: 16px;
+    height: 16px;
+    color: white;
+    margin: 5px 10px 0px 0px;
+}
+
+.templeTitle {
+    font-size: 17px;
+    margin-left: 10px;
+    margin-top: 0px;
+}
+
+.templeSubtitle {
+    font-size: 11px;
+    margin-left: 200px;
+    margin-top: -5px;
+}
+
+.closeBtn {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    margin: 0px;
+    padding: 0px;
+    background-color: transparent;
+    border: 0px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.submitStyle {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.submitNew {
+    width: 50%;
+    height: 30px;
+    background-color: white;
+    border: 1px solid #464646;
+    font-size: 17px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+.sidebar-right {
+    text-align: center;   
+}
+
+.templateShowing {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.templatesTitle {
+    font-size: 17px;
+    height: 10px;
+}
+
+.iconAnchor {
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+}
+
+.newWindow {
+    width: 300px;
+    height: 100px   ;
+}

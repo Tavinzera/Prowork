@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ProWork - Facilite suas tarefas diarias</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/header.css" />
+  </head>
+  <body>
+    <div>
+      <div class="header-container">
+        <a href="#" class="header-anchor">
+          <div class="header-slogan">
+            <img src="image/icon.png" class="header-icon" />
+            <h1 class="header-text">ProWork</h1>
+          </div>
+        </a>
+        <div class="search">
+          <i data-lucide="search" class="search-icon"></i>
+          <input type="text" placeholder="Search" id="search" />
+        </div>
+      </div>
+      <div class="structure-container">
+        <div class="sidebar-left"></div>
+
+        <div class="body-templates">
+          <button class="create-template" type="button">
+            <i data-lucide="plus" class="template-icon"></i>
+            <h1 class="templateBtn">Criar um quadro</h1>
+          </button>
+        </div>
+
+        <div class="sidebar-right">
+          <h1 class="templatesTitle" style="color: #464646">Meus quadros</h1>
+          <div class="templateShowing"></div>
+        </div>
+
+        <form id="create-template" class="form">
+          <button class="closeBtn"><i data-lucide="x" class="closeForm"></i></button>
+          <h1 class="formSubtitle">Titulo do quadro</h1>
+          <input
+            type="text"
+            class="title-template"
+            placeholder="Coloque o titulo do template"
+            id="title"
+            required
+          />
+          <h1 class="formSubtitle">Visibilidade</h1>
+          <div class="dropdown">
+            <button class="dropdownBtn" type="button">Particular</button>
+            <div class="options" id="options">
+              <a href="#" class="optn current" id="particular">
+                <h1 class="prev">Particular</h1>
+                <h1 class="desc">Crie um quadro exlusivo seu, onde so voce pode ver</h1>
+              </a>
+              <a href="#" class="optn" id="public">
+                <h1 class="prev">Publico</h1>
+                <h1 class="desc">
+                  Crie um quadro que pode ser usado por outras pessoas podem ter acesso
+                </h1>
+              </a>
+            </div>
+          </div>
+          <h1 class="formSubtitle">Cor do quadro</h1>
+          <div class="colors">
+            <div class="color selected" data-color="purple"></div>
+            <div class="color" data-color="blue"></div>
+            <div class="color" data-color="yellow"></div>
+            <div class="color" data-color="green"></div>
+            <div class="color" data-color="pink"></div>
+            <div class="color" data-color="black"></div>
+          </div>
+          <div class="template-demo">
+            <div class="templateCard" id="demo">
+              <div class="backgroundColor" style="background-color: purple">
+                <a class="iconAnchor">
+                  <i data-lucide="external-link" class="templateIcon"></i>
+                </a>
+              </div>
+              <h1 class="templeTitle">Exemplo</h1>
+              <h1 class="templeSubtitle">Visibility</h1>
+            </div>
+          </div>
+          <div class="submitStyle"><button type="submit" class="submitNew">Criar</button></div>
+        </form>
+      </div>
+    </div>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
