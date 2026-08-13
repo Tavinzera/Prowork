@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/header.css" />
   </head>
   <body>
+    <div class="block"></div>
     <div>
       <div class="header-container">
         <a href="#" class="header-anchor">
@@ -18,7 +19,7 @@
         </a>
         <div class="search">
           <i data-lucide="search" class="search-icon"></i>
-          <input type="text" placeholder="Search" id="search" />
+          <input type="text" placeholder="Search" id="search" name="search" />
         </div>
       </div>
       <div class="structure-container">
@@ -35,9 +36,8 @@
           <h1 class="templatesTitle" style="color: #464646">Meus quadros</h1>
           <div class="templateShowing"></div>
         </div>
-
         <form id="create-template" class="form">
-          <button class="closeBtn"><i data-lucide="x" class="closeForm"></i></button>
+          <button class="closeBtn" id="closeForm"><i data-lucide="x" class="closeForm"></i></button>
           <h1 class="formSubtitle">Titulo do quadro</h1>
           <input
             type="text"
@@ -45,6 +45,7 @@
             placeholder="Coloque o titulo do template"
             id="title"
             required
+            name="titleTempaltes"
           />
           <h1 class="formSubtitle">Visibilidade</h1>
           <div class="dropdown">
@@ -75,7 +76,8 @@
             <div class="templateCard" id="demo">
               <div class="backgroundColor" style="background-color: purple">
                 <a class="iconAnchor">
-                  <i data-lucide="external-link" class="templateIcon"></i>
+                  <i data-lucide="trash-2" class="templateIcon delete" id="demo"></i>
+                  <i data-lucide="external-link" class="templateIcon share"></i>
                 </a>
               </div>
               <h1 class="templeTitle">Exemplo</h1>
@@ -84,6 +86,22 @@
           </div>
           <div class="submitStyle"><button type="submit" class="submitNew">Criar</button></div>
         </form>
+      </div>
+    </div>
+    <div class="delTemplate">
+      <button class="closeBtn" id="closeDel"><i data-lucide="x" class="closeForm"></i></button>
+      <h1 class="delMessage">Voce tem certeza que deseja apagar?</h1>
+      <div class="delBtnList">
+        <button
+          style="background-color: rgb(59, 185, 59); color: white"
+          class="delButton"
+          id="confirm"
+        >
+          Sim
+        </button>
+        <button style="background-color: rgb(214, 5, 5); color: white" class="delButton" id="deny">
+          Nao
+        </button>
       </div>
     </div>
     <script src="https://unpkg.com/lucide@latest"></script>

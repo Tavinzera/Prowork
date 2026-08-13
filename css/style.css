@@ -51,11 +51,12 @@ body {
     background-color: #ffffff;
     border: 1px solid #464646;
     width: 300px;
-    height: 400px;
-    padding: 5px 30px;
+    height: 375px;
+    padding: 15px 30px;
     flex-direction: column;
     border-radius: 15px;
     color: #464646;
+    z-index: 3;
 }
 
 .form.active {
@@ -190,26 +191,28 @@ body {
     width: 16px;
     height: 16px;
     color: white;
-    margin: 5px 10px 0px 0px;
 }
 
 .templeTitle {
     font-size: 17px;
     margin-left: 10px;
     margin-top: 0px;
+    color: #464646;
+    text-align: left;
 }
 
 .templeSubtitle {
     font-size: 11px;
     margin-left: 200px;
     margin-top: -5px;
+    color: #464646;
 }
 
 .closeBtn {
     position: absolute;
     width: 24px;
     height: 24px;
-    margin: 0px;
+    margin-top: -10px;
     padding: 0px;
     background-color: transparent;
     border: 0px;
@@ -251,12 +254,79 @@ body {
 }
 
 .iconAnchor {
-    width: 16px;
-    height: 16px;
+    width: auto;
+    height: 32px;
     margin-right: 10px;
+    margin-top: 5px;
+    display: flex;
+    gap: 5px;
+}
+
+.delete:hover {
+    color: red;
+}
+
+.share:hover {
+    color: blue;
 }
 
 .newWindow {
     width: 300px;
     height: 100px   ;
+}
+
+.block {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    cursor: not-allowed;
+}
+
+.block.on{
+    display: block;
+}
+
+.delTemplate {
+    display: none;
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #464646;
+    width: 250px;
+    height: 100px;
+    padding: 15px 15px 0px 15px;
+    border-radius: 15px;
+    background-color: #fff;
+    z-index: 2;
+}
+
+.delMessage {
+    font-size: 15px;
+    text-align: center;
+}
+
+.delBtnList {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.delButton {
+    width: 70px;
+    height: 30px;
+    border-radius: 10px;
+    border: 1px solid #464646;
+    font-weight: bold;
+}
+
+.delButton:hover {
+    width: 75px;
+    height: 32px;
+}
+
+.delTemplate.active {
+    display: block;
 }
