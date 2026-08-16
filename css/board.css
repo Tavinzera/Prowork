@@ -4,10 +4,22 @@ body {
     font-family: 'Inter', sans-serif;
 }
 
+:root
+
+.boardBackground {
+    width: 100%;
+    min-height: 91.6vh;
+    height: auto;
+}
+
 .gridTopic {
+    margin-top: 20px;
+    margin-left: 50px;
     display: flex;
+    flex-wrap: nowrap;
     gap: 20px;
-    padding: 15px
+    padding: 15px;
+    overflow-x: auto;
 }
 
 .listTopic {
@@ -18,20 +30,87 @@ body {
     width: 210px;
     display: flex;
     align-items: center;
-    justify-content: flex;
-    background-color: white;
-    border: 1px solid #464646;
-    border-radius: 30px;
+    justify-content: center;
+    background-color: var(--board-set-transparent);
+    border: 0px;
+    border-radius: 15px;
+    height: 42px;
+}
+
+#createTopic {
+    height: 42px;
 }
 
 .createTopic h1 {
     font-size: 15px;
-    color: #464646;
 }
 
 .plus {
     width: 16px;
     height: 16px;
-    color: #464646;
+    color: var(--primary);
     margin: 5px;
+}
+
+.set {
+    flex-shrink: 0;
+    min-width: 110px;
+}
+
+#createTitle {
+    display: block;
+    width: 210px;
+    height: 90px;
+    background-color: var(--primary);
+    border-radius: 10px;
+}
+
+#titleSet {
+    width: 190px;
+    height: 25px;
+    display: block;
+    margin: 10px auto 10px auto;
+    border-radius: 5px;
+    border: 1px solid var(--border-two)
+}
+
+.createNewSet {
+    color: white;
+}
+
+.setCreate {
+    height: 30px;
+    border-radius: 5px;
+    margin-left: 10px;
+    border: 0px;
+    background-color: var(--board-bg-btn);
+}
+
+.setCreate:hover {
+    background-color: var(--board-btn-hover);
+}
+
+.createSetTitle {
+    font-family: 'Atlassian Sans';
+    color: var(--primary);
+    font-style: normal;
+    font-size: 15px;
+}
+
+.cancelCreate {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    border: 0px;
+    background-color: transparent;
+}
+
+.cancelCreate:hover {
+    background-color: var(--board-close-hover);
+}
+
+.closeCreate {
+    width: 20px;
+    height: 20px;
+    margin: auto;
 }

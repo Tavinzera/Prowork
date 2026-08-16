@@ -5,9 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/board.css" />
     <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/root.css" />
     <title>Meus quadros</title>
   </head>
-  <body>
+  <body
+    data-theme="purple"
+    style="background: linear-gradient(180deg, var(--board-bg-first), var(--board-bg-second))"
+  >
     <div class="header-container">
       <a href="index.html" class="header-anchor">
         <div class="header-slogan">
@@ -19,14 +23,36 @@
         <input type="text" placeholder="Search" id="search" />
       </div>
     </div>
-    <div class="gridTopic">
-      <button class="createTopic">
-        <i data-lucide="plus" class="plus"></i>
-        <h1>Adicionar uma lista</h1>
-      </button>
-      <div class="getTitle"></div>
+    <div class="boardBackground">
+      <div class="gridTopic">
+        <div class="set" id="createTopic">
+          <button class="createTopic">
+            <i data-lucide="plus" class="plus"></i>
+            <h1 class="createNewSet">Adicionar uma lista</h1>
+          </button>
+        </div>
+        <div class="getTitle"></div>
+      </div>
     </div>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="js/board.js"></script>
   </body>
 </html>
+
+<!--
+      Create STEP 2
+        <div class="set" id="createTitle">*/
+          <input type="text" name="titleSets " id="titleSet" placeholder="Coloque um titulo" />
+          <button class="setCreate"><h1 class="createSetTitle">Adicionar Lista</h1></button>
+          <button class="cancelCreate"><i data-lucide="x" class="closeCreate"></i></button>
+        </div>
+
+        Create STEP 1
+        <div class="set" id="createTopic">
+          <button class="createTopic">
+            <i data-lucide="plus" class="plus"></i>
+            <h1 class="createNewSet">Adicionar uma lista</h1>
+          </button>
+        </div>
+
+-->>
