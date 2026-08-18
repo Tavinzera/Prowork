@@ -3,12 +3,13 @@
     --border: #464646;
     --border-two: #8c8f97;
     --board-set-transparent: rgba(255, 255, 255, 0.24);
+    --board-set-transparent-two: rgba(255, 255, 255, 0.322);
 }
 
 [data-theme="purple"] {
     --board-bg-first: #844FBA;
     --board-bg-second: #5b328f;
-    --board-bg-btn: #8e24f3a3;
+    --board-bg-btn: #8e24f3d9;
     --board-btn-hover: #6b03cca3;
     --board-close-hover: #e2e2e2;
 }

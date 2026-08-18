@@ -41,6 +41,11 @@ body {
     height: 42px;
 }
 
+.createTopic:hover {
+    height: 42px;
+    background-color: var(--board-set-transparent-two);
+}
+
 .createTopic h1 {
     font-size: 15px;
 }
@@ -60,18 +65,26 @@ body {
 #createTitle {
     display: block;
     width: 210px;
-    height: 90px;
+    height: 80px;
     background-color: var(--primary);
     border-radius: 10px;
+    padding: 5px 0px;
+    border: 1px solid var(--border-two)
 }
+
 
 #titleSet {
     width: 190px;
     height: 25px;
     display: block;
-    margin: 10px auto 10px auto;
+    margin: 10px auto 0px auto;
     border-radius: 5px;
     border: 1px solid var(--border-two)
+}
+
+#titleSet::placeholder {
+    color: var(--border-two);
+    font-weight: bold;
 }
 
 .createNewSet {
@@ -98,6 +111,7 @@ body {
 }
 
 .cancelCreate {
+    margin-top: 10px;
     width: 30px;
     height: 30px;
     border-radius: 5px;
