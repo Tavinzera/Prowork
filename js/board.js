@@ -3,15 +3,17 @@ const updateIcons = () => {
     lucide.createIcons()
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    updateIcons();  
-    createTopicFunct();
-})
-
 // setup
 const parms = new URLSearchParams(window.location.search);
-const id = parms.get("id")
+console.log(parms)
+if(parms.has("id")) {
+
+} else {
+    console.log("Deu certo")
+    window.location.href = "index.html"
+}
 const templates = JSON.parse(localStorage.getItem("templates")) || [];
+const id = parms.get("id")
 const board = templates.find((template) => template.id === id)
 const sets = board.sets;
 
@@ -30,6 +32,11 @@ const createTopicFunct = () => {
     updateIcons();
     createNewTopic();
 })}
+
+document.addEventListener('DOMContentLoaded', () => {
+    updateIcons();  
+    createTopicFunct();
+})
 
 const cancelCreate = () => {
     const cancelCreateTopic = document.querySelector('.cancelCreate')
@@ -54,8 +61,6 @@ const createNewTopic = () => {
     const nameInputSet = document.getElementById('titleSet')
     createNewSubmit.addEventListener('click', () => {
         if(!nameInputSet.value.trim()){
-            alert('Digite um título para criar a lista!');
-            nameInputSet.focus()
             return;
         }
         const setNewName =  nameInputSet.value
@@ -72,3 +77,68 @@ const createNewTopic = () => {
         updateIcons()
     })
 }
+
+const closeDectect = document.querySelector('.closeDetect')
+const lists = document.querySelectorAll('.lists')
+lists.forEach((currentList) => {
+    const textAreaList = currentList.querySelector('.textareaList');
+    const newCardBtn = currentList.querySelector('.addNewCardBtn');
+    const newCardTextArea = currentList.querySelector('.textArea');
+    const menuAddCard = currentList.querySelector('.addNewCard');
+    const TextAreaListener = currentList.querySelector('.submitNameSelect');
+    const cardNameSelect = currentList.querySelector('.cardNameSelect');
+    const linesLoc = currentList.querySelector('.lines')
+
+    textAreaList.addEventListener('input', () => {
+        textAreaList.style.height = 'auto'
+        textAreaList.style.height = `${textAreaList.scrollHeight}px`;
+    })
+    let lastAreaText = textAreaList.value
+    currentList.id = textAreaList.value
+    textAreaList.addEventListener('focus', () => {
+        lastAreaText = textAreaList.value
+    })
+    textAreaList.addEventListener('blur', () => {
+        if(textAreaList.value === ""){
+            textAreaList.value = lastAreaText
+        }
+        currentList.id = textAreaList.value
+    })
+    newCardBtn.addEventListener('click', () => {
+        menuAddCard.style.display = "none"
+        newCardTextArea.style.display = "block"
+        console.log(currentList.id)
+    })
+    /*criar nova linha*/
+    TextAreaListener.addEventListener('click', () => {
+        if(!cardNameSelect.value){
+            return
+        }
+        const newName = cardNameSelect.value;
+        cardNameSelect.value = ""
+        console.log(newName);
+        menuAddCard.style.display = "block"
+        newCardTextArea.style.display = "none"
+        linesLoc.innerHTML += `
+        <li>
+                <div class="cardLine" id="${newName}">
+                  <input type="checkbox" class="lineFinished" />
+                  <span class="lineTitle" id="Texto aqui">${newName}</span>
+                  <div class="iconsLine">
+                    <i data-lucide="trash-2" class="icon16 delIcon"></i>
+                  </div>
+                </div>
+              </li>
+        `
+        updateIcons()
+    })
+    /* para cada linha */
+    const cardLines = currentList.querySelectorAll(".cardLine")
+    cardLines.forEach((cardLine) => {
+        const delListen = cardLine.querySelector(".iconsLine")
+        delListen.addEventListener('click', () => {
+            closeDectect.style.display = "block"
+            
+        })
+    })
+})

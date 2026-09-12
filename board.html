@@ -25,6 +25,60 @@
     </div>
     <div class="boardBackground">
       <div class="gridTopic">
+        <li class="setList">
+          <div class="set lists" id="Test">
+            <div class="titleListArea">
+              <textarea name="listTitle" id="Test" class="textareaList">Test</textarea>
+              <span class="listCount">0</span>
+              <i data-lucide="settings" class="icon16"></i>
+            </div>
+            <ol class="cardsList textArea">
+              <li>
+                <textarea name="cardName" id="cardName" class="cardNameSelect"></textarea>
+                <button type="button" class="submitNameSelect">Adicionar Lista</button>
+              </li>
+            </ol>
+            <div class="addNewCard">
+              <button class="addNewCardBtn">
+                <i data-lucide="plus" class="icon16"></i>
+                <span>Adicionar um cartão</span>
+              </button>
+            </div>
+          </div>
+        </li>
+        <li class="setList">
+          <div class="set lists" id="Pensar">
+            <div class="titleListArea">
+              <textarea name="listTitle" id="Test" class="textareaList">Test</textarea>
+              <span class="listCount">0</span>
+              <i data-lucide="settings" class="icon16"></i>
+            </div>
+            <div>
+            <ol class="cardsList lines">
+              <li>
+                <div class="cardLine">
+                  <input type="checkbox" class="lineFinished" />
+                  <span class="lineTitle" id="Texto aqui">Texto aqui</span>
+                  <div class="iconsLine">
+                    <i data-lucide="trash-2" class="icon16 delIcon"></i>
+                  </div>
+                </div>
+              </li>
+            </ol>
+            <ol class="cardsList textArea" style="display: none">
+              <li>
+                <textarea name="cardName" id="cardName" class="cardNameSelect"></textarea>
+                <button type="button" class="submitNameSelect">Adicionar Lista</button>
+              </li>
+            </ol>
+            <div class="addNewCard" style="display: block">
+              <button class="addNewCardBtn">
+                <i data-lucide="plus" class="icon16"></i>
+                <span>Adicionar um cartão</span>
+              </button>
+            </div>
+          </div>
+        </li>
         <div class="current">
           <div class="set" id="createTopic">
             <button class="createTopic">
@@ -33,8 +87,11 @@
             </button>
           </div>
         </div>
-        <div class="getTitle"></div>
       </div>
+    </div>
+    <div class="closeDetect"></div>
+    <div class="delConfim warning">
+
     </div>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="js/board.js"></script>
@@ -45,7 +102,7 @@
       Create STEP 2
         <div class="set" id="createTitle">*/
           <input type="text" name="titleSets " id="titleSet" placeholder="Coloque um titulo" />
-          <button class="setCreate"><h1 class="createSetTitle">Adicionar Lista</h1></button>
+          <button class="setCreate"><h1 class="createSetTitle">adicionar Lista</h1></button>
           <button class="cancelCreate"><i data-lucide="x" class="closeCreate"></i></button>
         </div>
 
