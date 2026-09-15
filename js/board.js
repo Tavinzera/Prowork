@@ -55,6 +55,7 @@ const cancelCreate = () => {
     })
 }
 
+const panel = document.querySelector('.gridTopic')
 const createNewTopic = () => {
     cancelCreate();
     const createNewSubmit = document.querySelector('.setCreate')
@@ -68,17 +69,79 @@ const createNewTopic = () => {
         currentCreate.innerHTML = `
             <div class="set" id="createTopic">
                 <button class="createTopic">
-                <i data-lucide="plus" class="plus"></i>
-                <h1 class="createNewSet">Adicionar uma lista</h1>
-            </button>
+                    <i data-lucide="plus" class="plus"></i>
+                    <h1 class="createNewSet">Adicionar uma lista</h1>
+                </button>
             </div>
         `
+        panel.lastElementChild.insertAdjacentHTML(
+            "beforebegin",
+            `<li class="setList">
+          <div class="set lists" id="Test">
+            <div class="titleListArea">
+              <textarea name="listTitle" id="Test" class="textareaList">Test</textarea>
+              <span class="listCount">0</span>
+              <i data-lucide="settings" class="icon16"></i>
+            </div>
+            <ol class="cardsList lines"></ol>
+            <ol class="cardsList textArea" style="display: none">
+              <li>
+                <textarea name="cardName" id="cardName" class="cardNameSelect"></textarea>
+                <div class="bottomTextArea">
+                  <button type="button" class="submitNameSelect">Adicionar Lista</button>
+                  <button class="cancelNewCard">
+                    <i data-lucide="X" class="icon16 x"></i>
+                  </button>
+                </div>
+              </li>
+            </ol>
+            <div class="addNewCard" style="display: block">
+              <button class="addNewCardBtn">
+                <i data-lucide="plus" class="icon16"></i>
+                <span>Adicionar um cartão</span>
+              </button>
+            </div>
+          </div>
+        </li>`
+        )
+        litsListener();
         createTopicFunct();
         updateIcons()
     })
 }
 
+let toggle = 0
+const warningSetup = document.querySelector('.warningSetup')
 const closeDectect = document.querySelector('.closeDetect')
+const waring = (color, type, functionName) => {
+
+    if (toggle == 0){
+        closeDectect.style.display = "block"
+        closeDectect.style.background = color
+        warningSetup.style.display = "block"
+        if (type == "del") {
+            warningSetup.innerHTML = 
+            `
+                <h1 class="warningDel">Tem certeza que quer excluir?</h1>
+                <div class="buttons">
+                    <button class="button" id="confirm">Sim</button>
+                    <button class="button" id="decline">Nao</button>
+                </div>
+            `
+            functionName()
+        }
+        closeDectect.addEventListener('click', () => {
+            waring()
+        })
+        toggle += 1
+    } else {
+        closeDectect.style.display = "none"
+        warningSetup.style.display = "none"
+        toggle -= 1
+    }
+}
+
+const litsListener = () => {
 const lists = document.querySelectorAll('.lists')
 lists.forEach((currentList) => {
     const textAreaList = currentList.querySelector('.textareaList');
@@ -90,7 +153,7 @@ lists.forEach((currentList) => {
     const linesLoc = currentList.querySelector('.lines')
 
     textAreaList.addEventListener('input', () => {
-        textAreaList.style.height = 'auto'
+        textAreaList.style.height = '25px'
         textAreaList.style.height = `${textAreaList.scrollHeight}px`;
     })
     let lastAreaText = textAreaList.value
@@ -111,6 +174,7 @@ lists.forEach((currentList) => {
     })
     /*criar nova linha*/
     TextAreaListener.addEventListener('click', () => {
+        console.log("clicou")
         if(!cardNameSelect.value){
             return
         }
@@ -119,26 +183,54 @@ lists.forEach((currentList) => {
         console.log(newName);
         menuAddCard.style.display = "block"
         newCardTextArea.style.display = "none"
-        linesLoc.innerHTML += `
-        <li>
+        linesLoc.insertAdjacentHTML("beforeend", `
+            <li>
                 <div class="cardLine" id="${newName}">
-                  <input type="checkbox" class="lineFinished" />
-                  <span class="lineTitle" id="Texto aqui">${newName}</span>
-                  <div class="iconsLine">
-                    <i data-lucide="trash-2" class="icon16 delIcon"></i>
-                  </div>
+                    <input type="checkbox" class="lineFinished" />
+                    <span class="lineTitle" id="Texto aqui">${newName}</span>
+                    <div class="iconsLine">
+                        <i data-lucide="trash-2" class="icon16 delIcon"></i>
+                    </div>
                 </div>
-              </li>
-        `
+            </li>
+        `)
         updateIcons()
+        linesFunct()
     })
     /* para cada linha */
-    const cardLines = currentList.querySelectorAll(".cardLine")
-    cardLines.forEach((cardLine) => {
+    let delSelection = null
+    const delFunct = () => {
+            const buttons = document.querySelectorAll('.button')
+            buttons.forEach((button) => {
+                button.addEventListener('click', () => {
+                    if (button.id == "confirm") {
+                    const cardLineSelect = currentList.querySelectorAll(".cardLine")
+                    cardLineSelect[delSelection].closest("li").remove()
+                    waring()
+                } else {
+                    waring()
+                }
+                })
+                
+            })
+            
+        }
+    const linesFunct = () => {
+        const cardLines = currentList.querySelectorAll(".cardLine")
+        cardLines.forEach((cardLine, index) => {
         const delListen = cardLine.querySelector(".iconsLine")
         delListen.addEventListener('click', () => {
-            closeDectect.style.display = "block"
-            
+            delSelection = index
+            console.log(delSelection)
+            waring("transparent", "del", delFunct)
         })
+        const cancelNewCard = currentList.querySelector('.cancelNewCard')
+        cancelNewCard.addEventListener('click', () => {
+        menuAddCard.style.display = "block"
+        newCardTextArea.style.display = "none"
     })
-})
+    })}
+    linesFunct()
+    
+})}
+litsListener();

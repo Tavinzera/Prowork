@@ -32,10 +32,16 @@
               <span class="listCount">0</span>
               <i data-lucide="settings" class="icon16"></i>
             </div>
+            <ol class="cardsList lines"></ol>
             <ol class="cardsList textArea">
               <li>
                 <textarea name="cardName" id="cardName" class="cardNameSelect"></textarea>
-                <button type="button" class="submitNameSelect">Adicionar Lista</button>
+                <div class="bottomTextArea">
+                  <button type="button" class="submitNameSelect">Adicionar Lista</button>
+                  <button class="cancelNewCard">
+                    <i data-lucide="X" class="icon16 x"></i>
+                  </button>
+                </div>
               </li>
             </ol>
             <div class="addNewCard">
@@ -53,7 +59,6 @@
               <span class="listCount">0</span>
               <i data-lucide="settings" class="icon16"></i>
             </div>
-            <div>
             <ol class="cardsList lines">
               <li>
                 <div class="cardLine">
@@ -68,7 +73,12 @@
             <ol class="cardsList textArea" style="display: none">
               <li>
                 <textarea name="cardName" id="cardName" class="cardNameSelect"></textarea>
-                <button type="button" class="submitNameSelect">Adicionar Lista</button>
+                <div class="bottomTextArea">
+                  <button type="button" class="submitNameSelect">Adicionar Lista</button>
+                  <button class="cancelNewCard">
+                    <i data-lucide="X" class="icon16 x"></i>
+                  </button>
+                </div>
               </li>
             </ol>
             <div class="addNewCard" style="display: block">
@@ -90,8 +100,12 @@
       </div>
     </div>
     <div class="closeDetect"></div>
-    <div class="delConfim warning">
-
+    <div class="warningSetup" style="display: none">
+      <h1 class="warningDel">Tem certeza que quer excluir?</h1>
+      <div class="buttons">
+        <button class="button confirm">Sim</button>
+        <button class="button decline">Nao</button>
+      </div>
     </div>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="js/board.js"></script>

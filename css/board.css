@@ -65,7 +65,7 @@ body {
 #createTitle {
     display: block;
     width: 210px;
-    height: 80px;
+    height: 85px;
     background-color: var(--primary);
     border-radius: 10px;
     padding: 5px 0px;
@@ -159,9 +159,10 @@ body {
     outline: 0;
     border: 0px;
     font-family: 'inter';
+    font-size: 13px;
     margin-left: 10px;
     width: 70%;
-    height: auto;
+    height: 25px;
     resize: none;
     overflow: none;
     border-radius: 10px;
@@ -226,7 +227,7 @@ body {
 .submitNameSelect {
     background-color: var(--board-bg-btn);
     width: 120px;
-    height: 30px;
+    height: 35px;
     border: 1px solid var(--board-set-transparent-two);
     border-radius: 10px;
     color: var(--primary);
@@ -278,7 +279,7 @@ body {
 }
 
 .delIcon {
-    color: var(--border);
+    color: #bbbbbb;
 }
 
 .delIcon:hover {
@@ -304,6 +305,58 @@ body {
 
 }
 
-.warning {
-    background-color: white;
+.bottomTextArea {
+    display: flex;
+}
+
+.cancelNewCard {
+    width: 35px;
+    height: 35px;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-left: 5px;
+    justify-content: center;
+    background-color: var(--primary);
+    border: 1px solid transparent;
+}
+
+.x {
+    margin-top: 5px;
+}
+
+.warningSetup {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    left: 50%;
+    top: 30%;
+    transform: translate(-50%, -50%);
+    background-color: var(--primary);
+    width: 400px;
+    height: auto;
+    border-radius: 15px;
+    border: 1px solid var(--border-two);
+}
+
+.warningDel {
+    width: 80%;
+    height: 30px;
+    text-align: center;
+    font-size: 25px;
+    margin: 30px auto 0px auto;
+}
+
+.buttons {
+    margin: 70px auto 50px auto;
+    width: 345px;
+}
+
+.buttons .button {
+    width: 150px;
+    height: 40px;
+    margin: 0px 10px;
+    border-radius: 10px;
+    border: 1px solid var(--border-two);
+    font-size: 15px;
+    font-weight: bold;
 }
