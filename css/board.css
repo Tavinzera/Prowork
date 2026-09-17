@@ -8,13 +8,13 @@ body {
 
 .boardBackground {
     width: 100%;
-    min-height: 91.6vh;
     height: auto;
 }
 
 .gridTopic {
     margin-top: 20px;
     margin-left: 50px;
+    min-height: 86.3vh;
     display: flex;
     flex-wrap: nowrap;
     gap: 20px;

@@ -3,11 +3,14 @@ const updateIcons = () => {
     lucide.createIcons()
 }
 
-// setup
+document.addEventListener('DOMContentLoaded', () => {
+    updateIcons();  
+})
+
+// Loading config
 const parms = new URLSearchParams(window.location.search);
 console.log(parms)
 if(parms.has("id")) {
-
 } else {
     console.log("Deu certo")
     window.location.href = "index.html"
@@ -15,100 +18,119 @@ if(parms.has("id")) {
 const templates = JSON.parse(localStorage.getItem("templates")) || [];
 const id = parms.get("id")
 const board = templates.find((template) => template.id === id)
-const sets = board.sets;
-
-//basic functions
-const createTopicFunct = () => {
-    const createTopic = document.querySelector('.createTopic')
-    createTopic.addEventListener('click', () => {
-    const currentCreate = document.querySelector('.current')
-    currentCreate.innerHTML = `
-        <div class="set" id="createTitle">
-            <input type="text" name="titleSets " id="titleSet" placeholder="Coloque um titulo" required/>
-            <button class="setCreate" type="submit"><h1 class="createSetTitle">Adicionar Lista</h1></button>
-            <button class="cancelCreate"><i data-lucide="x" class="closeCreate"></i></button>
-          </div>
-    `
-    updateIcons();
-    createNewTopic();
-})}
-
-document.addEventListener('DOMContentLoaded', () => {
-    updateIcons();  
-    createTopicFunct();
-})
-
-const cancelCreate = () => {
-    const cancelCreateTopic = document.querySelector('.cancelCreate')
-    cancelCreateTopic.addEventListener('click', () => {
-        const currentCreate = document.querySelector('.current')
-        currentCreate.innerHTML = `
-            <div class="set" id="createTopic">
-                <button class="createTopic">
-                <i data-lucide="plus" class="plus"></i>
-                <h1 class="createNewSet">Adicionar uma lista</h1>
-            </button>
-            </div>
-        `
-        updateIcons()
-        createTopicFunct();
-    })
+if (!board){
+    window.location.href = "index.html"
 }
-
+console.log(board.sets)
+//Updating storage
+const updateStorage = () => {
+    localStorage.setItem("templates", JSON.stringify(templates));
+}
+//Render
 const panel = document.querySelector('.gridTopic')
-const createNewTopic = () => {
-    cancelCreate();
-    const createNewSubmit = document.querySelector('.setCreate')
-    const nameInputSet = document.getElementById('titleSet')
-    createNewSubmit.addEventListener('click', () => {
-        if(!nameInputSet.value.trim()){
-            return;
-        }
-        const setNewName =  nameInputSet.value
-        const currentCreate = document.querySelector('.current')
-        currentCreate.innerHTML = `
-            <div class="set" id="createTopic">
-                <button class="createTopic">
-                    <i data-lucide="plus" class="plus"></i>
-                    <h1 class="createNewSet">Adicionar uma lista</h1>
-                </button>
-            </div>
-        `
+const updateRender = () => {
+    board.sets.forEach((list) => {
         panel.lastElementChild.insertAdjacentHTML(
-            "beforebegin",
-            `<li class="setList">
-          <div class="set lists" id="Test">
-            <div class="titleListArea">
-              <textarea name="listTitle" id="Test" class="textareaList">Test</textarea>
-              <span class="listCount">0</span>
-              <i data-lucide="settings" class="icon16"></i>
-            </div>
+    "beforebegin",
+    `<li class="setList">
+        <div class="set lists" id="Test">
+        <div class="titleListArea">
+            <textarea name="listTitle" id="Test" class="textareaList">${list.name}</textarea>
+            <span class="listCount">0</span>
+            <i data-lucide="settings" class="icon16"></i>
+        </div>
             <ol class="cardsList lines"></ol>
             <ol class="cardsList textArea" style="display: none">
-              <li>
-                <textarea name="cardName" id="cardName" class="cardNameSelect"></textarea>
-                <div class="bottomTextArea">
-                  <button type="button" class="submitNameSelect">Adicionar Lista</button>
-                  <button class="cancelNewCard">
-                    <i data-lucide="X" class="icon16 x"></i>
-                  </button>
-                </div>
-              </li>
+                <li>
+                    <textarea name="cardName" id="cardName" class="cardNameSelect"></textarea>
+                    <div class="bottomTextArea">
+                        <button type="button" class="submitNameSelect">Adicionar Lista</button>
+                        <button class="cancelNewCard">
+                        <i data-lucide="X" class="icon16 x"></i>
+                        </button>
+                    </div>
+                </li>
             </ol>
             <div class="addNewCard" style="display: block">
-              <button class="addNewCardBtn">
-                <i data-lucide="plus" class="icon16"></i>
-                <span>Adicionar um cartão</span>
-              </button>
+                <button class="addNewCardBtn">
+                    <i data-lucide="plus" class="icon16"></i>
+                    <span>Adicionar um cartão</span>
+                </button>
             </div>
-          </div>
-        </li>`
-        )
-        litsListener();
-        createTopicFunct();
-        updateIcons()
-    })
+        </div>
+    </li>`
+    )})
 }
+updateRender()
+
+//Current transition
+const createNewSet = document.querySelector('.createTopic')
+const cancelCreate = document.querySelector('.cancelCreate')
+const createTopic = document.querySelector('#createTopic')
+const createTitle = document.querySelector('#createTitle')
+createNewSet.addEventListener('click', () => {
+createTitle.style.display = "block"
+createTopic.style.display = "none"
+updateIcons();
+})
+
+cancelCreate.addEventListener('click', () => {
+createTitle.style.display = "none"
+createTopic.style.display = "block"
+updateIcons();
+})
+//Creating new pages
+const createNewSubmit = document.querySelector('.setCreate')
+const nameInputSet = document.getElementById('titleSet')
+createNewSubmit.addEventListener('click', () => {
+    if(!nameInputSet.value.trim()){
+        return;
+    }
+const setNewName =  nameInputSet.value
+//push to localStorage
+board.sets.push({
+    name: setNewName,
+    cards: []
+});
+updateStorage()
+
+const panel = document.querySelector('.gridTopic')
+createTitle.style.display = "none"
+createTopic.style.display = "block"
+panel.lastElementChild.insertAdjacentHTML(
+    "beforebegin",
+    `<li class="setList">
+        <div class="set lists" id="Test">
+        <div class="titleListArea">
+            <textarea name="listTitle" id="Test" class="textareaList">${setNewName}</textarea>
+            <span class="listCount">0</span>
+            <i data-lucide="settings" class="icon16"></i>
+        </div>
+            <ol class="cardsList lines"></ol>
+            <ol class="cardsList textArea" style="display: none">
+                <li>
+                    <textarea name="cardName" id="cardName" class="cardNameSelect"></textarea>
+                    <div class="bottomTextArea">
+                        <button type="button" class="submitNameSelect">Adicionar Lista</button>
+                        <button class="cancelNewCard">
+                        <i data-lucide="X" class="icon16 x"></i>
+                        </button>
+                    </div>
+                </li>
+            </ol>
+            <div class="addNewCard" style="display: block">
+                <button class="addNewCardBtn">
+                    <i data-lucide="plus" class="icon16"></i>
+                    <span>Adicionar um cartão</span>
+                </button>
+            </div>
+        </div>
+    </li>`
+)
+nameInputSet.value = ""
+listsListener();
+updateIcons()
+})
 
 let toggle = 0
 const warningSetup = document.querySelector('.warningSetup')
@@ -141,8 +163,10 @@ const waring = (color, type, functionName) => {
     }
 }
 
-const litsListener = () => {
+let delSelection = null
+const listsListener = () => {
 const lists = document.querySelectorAll('.lists')
+
 lists.forEach((currentList) => {
     const textAreaList = currentList.querySelector('.textareaList');
     const newCardBtn = currentList.querySelector('.addNewCardBtn');
@@ -152,12 +176,25 @@ lists.forEach((currentList) => {
     const cardNameSelect = currentList.querySelector('.cardNameSelect');
     const linesLoc = currentList.querySelector('.lines')
 
+    currentList.addEventListener('click', (event) => {
+        const delListen = event.target.closest('.iconsLine')
+        const cancelNewCard = event.target.closest(".cancelNewCard")
+        const createTopic = event.target.closest('.createTopic')
+        if (delListen) {
+            delSelection = delListen
+            waring("transparent", "del", delFunct)
+        } if (cancelNewCard) {
+            menuAddCard.style.display = "block"
+            newCardTextArea.style.display = "none"
+        } if (createTopic) {}
+    })
+
+    /*textArea*/
     textAreaList.addEventListener('input', () => {
         textAreaList.style.height = '25px'
         textAreaList.style.height = `${textAreaList.scrollHeight}px`;
     })
     let lastAreaText = textAreaList.value
-    currentList.id = textAreaList.value
     textAreaList.addEventListener('focus', () => {
         lastAreaText = textAreaList.value
     })
@@ -165,22 +202,18 @@ lists.forEach((currentList) => {
         if(textAreaList.value === ""){
             textAreaList.value = lastAreaText
         }
-        currentList.id = textAreaList.value
     })
     newCardBtn.addEventListener('click', () => {
         menuAddCard.style.display = "none"
         newCardTextArea.style.display = "block"
-        console.log(currentList.id)
     })
     /*criar nova linha*/
     TextAreaListener.addEventListener('click', () => {
-        console.log("clicou")
         if(!cardNameSelect.value){
             return
         }
         const newName = cardNameSelect.value;
         cardNameSelect.value = ""
-        console.log(newName);
         menuAddCard.style.display = "block"
         newCardTextArea.style.display = "none"
         linesLoc.insertAdjacentHTML("beforeend", `
@@ -195,17 +228,15 @@ lists.forEach((currentList) => {
             </li>
         `)
         updateIcons()
-        linesFunct()
     })
     /* para cada linha */
-    let delSelection = null
+    
     const delFunct = () => {
             const buttons = document.querySelectorAll('.button')
             buttons.forEach((button) => {
                 button.addEventListener('click', () => {
                     if (button.id == "confirm") {
-                    const cardLineSelect = currentList.querySelectorAll(".cardLine")
-                    cardLineSelect[delSelection].closest("li").remove()
+                    delSelection.closest("li").remove()
                     waring()
                 } else {
                     waring()
@@ -215,22 +246,5 @@ lists.forEach((currentList) => {
             })
             
         }
-    const linesFunct = () => {
-        const cardLines = currentList.querySelectorAll(".cardLine")
-        cardLines.forEach((cardLine, index) => {
-        const delListen = cardLine.querySelector(".iconsLine")
-        delListen.addEventListener('click', () => {
-            delSelection = index
-            console.log(delSelection)
-            waring("transparent", "del", delFunct)
-        })
-        const cancelNewCard = currentList.querySelector('.cancelNewCard')
-        cancelNewCard.addEventListener('click', () => {
-        menuAddCard.style.display = "block"
-        newCardTextArea.style.display = "none"
-    })
     })}
-    linesFunct()
     
-})}
-litsListener();
