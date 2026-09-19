@@ -360,3 +360,39 @@ body {
     font-size: 15px;
     font-weight: bold;
 }
+
+.config {
+    display: flex;
+    width: 32px;
+    height: 32px;
+    margin-top: -5px;
+    margin-left: -5px;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    border: 0px;
+    background-color: transparent;
+}
+
+.config:hover {
+    background-color: var(--board-list);
+}
+
+.rightDropdown{
+    position: relative;
+}
+
+.configMenu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: calc(100% + 8px);
+    gap: 4px;
+}
+
+.configOption {
+    padding: 5px 10px;
+    background-color: var(--dropdwonRight);
+    border-radius: 5px;
+}

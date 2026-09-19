@@ -59,7 +59,8 @@ const updateRender = () => {
             </div>
         </div>
     </li>`
-    )})
+    )
+})
 }
 updateRender()
 
@@ -86,15 +87,14 @@ createNewSubmit.addEventListener('click', () => {
     if(!nameInputSet.value.trim()){
         return;
     }
-const setNewName =  nameInputSet.value
-//push to localStorage
-board.sets.push({
-    name: setNewName,
-    cards: []
-});
-updateStorage()
+    const setNewName =  nameInputSet.value
+    //push to localStorage
+    board.sets.push({
+        name: setNewName,
+        cards: []
+    });
+    updateStorage()
 
-const panel = document.querySelector('.gridTopic')
 createTitle.style.display = "none"
 createTopic.style.display = "block"
 panel.lastElementChild.insertAdjacentHTML(
@@ -127,8 +127,9 @@ panel.lastElementChild.insertAdjacentHTML(
         </div>
     </li>`
 )
+const newList = panel.lastElementChild.previousElementSibling
+setupList(newList)
 nameInputSet.value = ""
-listsListener();
 updateIcons()
 })
 
@@ -164,10 +165,7 @@ const waring = (color, type, functionName) => {
 }
 
 let delSelection = null
-const listsListener = () => {
-const lists = document.querySelectorAll('.lists')
-
-lists.forEach((currentList) => {
+const setupList = (currentList) => {
     const textAreaList = currentList.querySelector('.textareaList');
     const newCardBtn = currentList.querySelector('.addNewCardBtn');
     const newCardTextArea = currentList.querySelector('.textArea');
@@ -187,6 +185,12 @@ lists.forEach((currentList) => {
             menuAddCard.style.display = "block"
             newCardTextArea.style.display = "none"
         } if (createTopic) {}
+    })
+
+    const counter = currentList.querySelector('.listCount')
+    counter.textContent = textAreaList.value.length
+    textAreaList.addEventListener('input', () => {
+        counter.textContent = textAreaList.value.length
     })
 
     /*textArea*/
@@ -246,5 +250,8 @@ lists.forEach((currentList) => {
             })
             
         }
-    })}
-    
+    }
+const lists = document.querySelectorAll('.setList')
+lists.forEach((list) => {
+    setupList(list)
+})  
