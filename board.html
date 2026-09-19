@@ -26,34 +26,7 @@
     <div class="boardBackground">
       <div class="gridTopic">
         <li class="setList">
-          <div class="set lists" id="Test">
-            <div class="titleListArea">
-              <textarea name="listTitle" id="Test" class="textareaList">Test</textarea>
-              <span class="listCount">0</span>
-              <i data-lucide="settings" class="icon16"></i>
-            </div>
-            <ol class="cardsList lines"></ol>
-            <ol class="cardsList textArea">
-              <li>
-                <textarea name="cardName" id="cardName" class="cardNameSelect"></textarea>
-                <div class="bottomTextArea">
-                  <button type="button" class="submitNameSelect">Adicionar Lista</button>
-                  <button class="cancelNewCard">
-                    <i data-lucide="X" class="icon16 x"></i>
-                  </button>
-                </div>
-              </li>
-            </ol>
-            <div class="addNewCard">
-              <button class="addNewCardBtn">
-                <i data-lucide="plus" class="icon16"></i>
-                <span>Adicionar um cartão</span>
-              </button>
-            </div>
-          </div>
-        </li>
-        <li class="setList">
-          <div class="set lists" id="Pensar">
+          <div class="set lists">
             <div class="titleListArea">
               <textarea name="listTitle" id="Test" class="textareaList">Test</textarea>
               <span class="listCount">0</span>
@@ -61,8 +34,11 @@
                 <button class="config">
                   <i data-lucide="settings" class="icon16"> </i>
                 </button>
-                <div class="configMenu">
-                  <div class="configOption">abacate</div>
+                <div class="configMenu" style="display: none">
+                  <div class="configOption" id="del">
+                    <i data-lucide="trash" class="icon16"></i>
+                    <h1 class="configText">Deletar</h1>
+                  </div>
                   <div class="configOption">melancia</div>
                   <div class="configOption">tomates</div>
                 </div>

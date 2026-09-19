@@ -33,32 +33,54 @@ const updateRender = () => {
         panel.lastElementChild.insertAdjacentHTML(
     "beforebegin",
     `<li class="setList">
-        <div class="set lists" id="Test">
-        <div class="titleListArea">
-            <textarea name="listTitle" id="Test" class="textareaList">${list.name}</textarea>
-            <span class="listCount">0</span>
-            <i data-lucide="settings" class="icon16"></i>
-        </div>
-            <ol class="cardsList lines"></ol>
+          <div class="set lists">
+            <div class="titleListArea">
+              <textarea name="listTitle" id="Test" class="textareaList">${list.name}</textarea>
+              <span class="listCount">0</span>
+              <div class="rightDropdown">
+                <button class="config">
+                  <i data-lucide="settings" class="icon16"> </i>
+                </button>
+                <div class="configMenu">
+                  <div class="configOption" id="del">
+                    <i data-lucide="trash" class="icon16"></i>
+                    <h1 class="configText">Deletar</h1>
+                  </div>
+                  <div class="configOption">melancia</div>
+                  <div class="configOption">tomates</div>
+                </div>
+              </div>
+            </div>
+            <ol class="cardsList lines">
+              <li>
+                <div class="cardLine">
+                  <input type="checkbox" class="lineFinished" />
+                  <span class="lineTitle" id="Texto aqui">Texto aqui</span>
+                  <div class="iconsLine">
+                    <i data-lucide="trash-2" class="icon16 delIcon"></i>
+                  </div>
+                </div>
+              </li>
+            </ol>
             <ol class="cardsList textArea" style="display: none">
-                <li>
-                    <textarea name="cardName" id="cardName" class="cardNameSelect"></textarea>
-                    <div class="bottomTextArea">
-                        <button type="button" class="submitNameSelect">Adicionar Lista</button>
-                        <button class="cancelNewCard">
-                        <i data-lucide="X" class="icon16 x"></i>
-                        </button>
-                    </div>
-                </li>
+              <li>
+                <textarea name="cardName" id="cardName" class="cardNameSelect"></textarea>
+                <div class="bottomTextArea">
+                  <button type="button" class="submitNameSelect">Adicionar Lista</button>
+                  <button class="cancelNewCard">
+                    <i data-lucide="X" class="icon16 x"></i>
+                  </button>
+                </div>
+              </li>
             </ol>
             <div class="addNewCard" style="display: block">
-                <button class="addNewCardBtn">
-                    <i data-lucide="plus" class="icon16"></i>
-                    <span>Adicionar um cartão</span>
-                </button>
+              <button class="addNewCardBtn">
+                <i data-lucide="plus" class="icon16"></i>
+                <span>Adicionar um cartão</span>
+              </button>
             </div>
-        </div>
-    </li>`
+          </div>
+        </li>`
     )
 })
 }
@@ -101,30 +123,55 @@ panel.lastElementChild.insertAdjacentHTML(
     "beforebegin",
     `<li class="setList">
         <div class="set lists" id="Test">
-        <div class="titleListArea">
-            <textarea name="listTitle" id="Test" class="textareaList">${setNewName}</textarea>
-            <span class="listCount">0</span>
-            <i data-lucide="settings" class="icon16"></i>
-        </div>
-            <ol class="cardsList lines"></ol>
+        <li class="setList">
+          <div class="set lists">
+            <div class="titleListArea">
+              <textarea name="listTitle" id="Test" class="textareaList">${setNewName}</textarea>
+              <span class="listCount">0</span>
+              <div class="rightDropdown">
+                <button class="config">
+                  <i data-lucide="settings" class="icon16"> </i>
+                </button>
+                <div class="configMenu">
+                  <div class="configOption" id="del">
+                    <i data-lucide="trash" class="icon16"></i>
+                    <h1 class="configText">Deletar</h1>
+                  </div>
+                  <div class="configOption">melancia</div>
+                  <div class="configOption">tomates</div>
+                </div>
+              </div>
+            </div>
+            <ol class="cardsList lines">
+              <li>
+                <div class="cardLine">
+                  <input type="checkbox" class="lineFinished" />
+                  <span class="lineTitle" id="Texto aqui">Texto aqui</span>
+                  <div class="iconsLine">
+                    <i data-lucide="trash-2" class="icon16 delIcon"></i>
+                  </div>
+                </div>
+              </li>
+            </ol>
             <ol class="cardsList textArea" style="display: none">
-                <li>
-                    <textarea name="cardName" id="cardName" class="cardNameSelect"></textarea>
-                    <div class="bottomTextArea">
-                        <button type="button" class="submitNameSelect">Adicionar Lista</button>
-                        <button class="cancelNewCard">
-                        <i data-lucide="X" class="icon16 x"></i>
-                        </button>
-                    </div>
-                </li>
+              <li>
+                <textarea name="cardName" id="cardName" class="cardNameSelect"></textarea>
+                <div class="bottomTextArea">
+                  <button type="button" class="submitNameSelect">Adicionar Lista</button>
+                  <button class="cancelNewCard">
+                    <i data-lucide="X" class="icon16 x"></i>
+                  </button>
+                </div>
+              </li>
             </ol>
             <div class="addNewCard" style="display: block">
-                <button class="addNewCardBtn">
-                    <i data-lucide="plus" class="icon16"></i>
-                    <span>Adicionar um cartão</span>
-                </button>
+              <button class="addNewCardBtn">
+                <i data-lucide="plus" class="icon16"></i>
+                <span>Adicionar um cartão</span>
+              </button>
             </div>
-        </div>
+          </div>
+        </li>
     </li>`
 )
 const newList = panel.lastElementChild.previousElementSibling
@@ -133,16 +180,15 @@ nameInputSet.value = ""
 updateIcons()
 })
 
-let toggle = 0
+let toggle = false
 const warningSetup = document.querySelector('.warningSetup')
 const closeDectect = document.querySelector('.closeDetect')
 const waring = (color, type, functionName) => {
 
-    if (toggle == 0){
+    if (!toggle){
         closeDectect.style.display = "block"
         closeDectect.style.background = color
-        warningSetup.style.display = "block"
-        if (type == "del") {
+        if (type === "del") {
             warningSetup.innerHTML = 
             `
                 <h1 class="warningDel">Tem certeza que quer excluir?</h1>
@@ -151,17 +197,21 @@ const waring = (color, type, functionName) => {
                     <button class="button" id="decline">Nao</button>
                 </div>
             `
+            warningSetup.style.display = "block"
+            functionName()
+        } else if (type === "configBtn") {
             functionName()
         }
-        closeDectect.addEventListener('click', () => {
-            waring()
-        })
-        toggle += 1
+        toggle = true
+
     } else {
         closeDectect.style.display = "none"
         warningSetup.style.display = "none"
-        toggle -= 1
+        toggle = false
     }
+    closeDectect.addEventListener('click', () => {
+            waring()
+        })
 }
 
 let delSelection = null
@@ -233,24 +283,32 @@ const setupList = (currentList) => {
         `)
         updateIcons()
     })
-    /* para cada linha */
-    
-    const delFunct = () => {
-            const buttons = document.querySelectorAll('.button')
-            buttons.forEach((button) => {
-                button.addEventListener('click', () => {
-                    if (button.id == "confirm") {
-                    delSelection.closest("li").remove()
-                    waring()
-                } else {
-                    waring()
-                }
-                })
-                
-            })
-            
-        }
+
+
+    const configBtn = currentList.querySelector('.config')
+    const configMenu = currentList.querySelector('.configMenu')
+    configBtn.addEventListener('click', () => {
+        waring("transparent", "configBtn", configDropRigth)
+    })
+    const configDropRigth = () => {
+        configMenu.style.display = "flex"
     }
+    configBtn.addEventListener('click', () => {
+        closeDectect.addEventListener('click', () => {
+            configMenu.style.display = "none"
+        })
+        
+    })
+    const configOptions = currentList.querySelectorAll('.configOption')
+        configOptions.forEach((configOption) => {
+            configOption.addEventListener('click', () => {
+                if (configOption.id === "del") {
+                    currentList.remove()
+                    
+                }
+            })
+        })
+}
 const lists = document.querySelectorAll('.setList')
 lists.forEach((list) => {
     setupList(list)
