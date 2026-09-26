@@ -1,4 +1,4 @@
-body {
+ebody {
     margin: 0px;
     padding: 0px;
     font-family: 'Inter', sans-serif;
@@ -13,12 +13,13 @@ body {
 
 .gridTopic {
     margin-top: 20px;
-    margin-left: 50px;
+    margin-left: 20px;
+    min-width: 100vw;
+    width: auto;
     min-height: 86.3vh;
     display: flex;
     flex-wrap: nowrap;
     gap: 20px;
-    padding: 15px;
     overflow-x: auto;
 }
 
@@ -135,7 +136,7 @@ body {
 }
 
 .setList {
-    width: 220px;
+    width: 250px;
     list-style: none;
 }
 
@@ -143,6 +144,8 @@ body {
     background-color: var(--board-list);
     border: 1px solid var(--border);
     width: 100%;
+    display: flex;
+    flex-direction: column;
     height: auto;
     border-radius: 10px;
     margin: 0px
@@ -161,7 +164,8 @@ body {
     font-family: 'inter';
     font-size: 13px;
     margin-left: 10px;
-    width: 70%;
+    width: 65%;
+    padding-left: 15px;
     height: 25px;
     resize: none;
     overflow: none;
@@ -203,7 +207,7 @@ body {
 }
 
 .cardsList {
-    width: 200px;
+    width: 225px;
     list-style: none;
     padding: 0;
     margin: 0px 10px 10px 10px;
@@ -226,7 +230,7 @@ body {
 
 .submitNameSelect {
     background-color: var(--board-bg-btn);
-    width: 120px;
+    width: 150px;
     height: 35px;
     border: 1px solid var(--board-set-transparent-two);
     border-radius: 10px;
@@ -241,11 +245,16 @@ body {
     min-height: 15px;
     padding-top: 10px;
     padding-bottom: 10px;
+    font-size: 18px;
     height: auto;
     border-radius: 15px;
     background-color: var(--primary);
     border: 1px solid var(--border-two);
     justify-content: center;
+}
+
+.cardLine:hover {
+   border: 2px solid var(--board-bg-btn)
 }
 
 .lineFinished {
@@ -267,7 +276,8 @@ body {
     height: auto;
     overflow-wrap: break-word;
     word-wrap: break-word;
-    font-size: 12px;
+    font-size: 15px;
+    font-family: arial;
 }
 
 .iconsLine {
@@ -343,11 +353,11 @@ body {
     height: 30px;
     text-align: center;
     font-size: 25px;
-    margin: 30px auto 0px auto;
+    margin: 40px auto 0px auto;
 }
 
 .buttons {
-    margin: 70px auto 50px auto;
+    margin: 70px auto 30px auto;
     width: 345px;
 }
 
@@ -387,7 +397,7 @@ body {
     flex-direction: column;
     position: absolute;
     top: 0;
-    left: calc(100% + 8px);
+    left: calc(100% + 20px);
     gap: 4px;
 }
 
@@ -406,4 +416,8 @@ body {
 
 .configText {
     font-size: 15px;
+}
+
+.line {
+    background-color: transparent;
 }
