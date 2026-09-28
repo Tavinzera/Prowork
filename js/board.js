@@ -28,6 +28,69 @@ const updateStorage = () => {
     localStorage.setItem("templates", JSON.stringify(templates));
 }
 
+//Structures
+const listFunct = (id, name, cards) => {
+  panel.lastElementChild.insertAdjacentHTML(
+    "beforebegin",
+    `<li class="setList" data-id="${id}">
+          <div class="set lists">
+            <div class="titleListArea">
+              <textarea name="listTitle" data-id="${name}" class="textareaList">${name}</textarea>
+              <span class="listCount">0</span>
+              <div class="rightDropdown">
+                <button class="config">
+                  <i data-lucide="settings" class="icon16"> </i>
+                </button>
+                <div class="configMenu">
+                  <div class="configOption" id="del">
+                    <i data-lucide="trash" class="icon16"></i>
+                    <h1 class="configText">Deletar</h1>
+                  </div>
+                  <div class="configOption">melancia</div>
+                  <div class="configOption">tomates</div>
+                </div>
+              </div>
+            </div>
+            <ol class="cardsList lines">
+              ${cards}
+            </ol>
+            <ol class="cardsList textArea" style="display: none">
+              <li>
+                <textarea name="cardName" id="cardName" class="cardNameSelect"></textarea>
+                <div class="bottomTextArea">
+                  <button type="button" class="submitNameSelect">Adicionar Lista</button>
+                  <button class="cancelNewCard">
+                    <i data-lucide="X" class="icon16 x"></i>
+                  </button>
+                </div>
+              </li>
+            </ol>
+            <div class="addNewCard" style="display: block">
+              <button class="addNewCardBtn">
+                <i data-lucide="plus" class="icon16"></i>
+                <span>Adicionar um cartão</span>
+              </button>
+            </div>
+          </div>
+        </li>
+      `
+    )
+}
+
+const cardFunct = (id, name) => {
+  return `
+            <li data-id="${id}" class="line" draggable="true">
+                <div class="cardLine" id="${name}">
+                    <input type="checkbox" class="lineFinished" />
+                    <span class="lineTitle" id="Texto aqui">${name}</span>
+                    <div class="iconsLine">
+                        <i data-lucide="trash-2" class="icon16 delIcon"></i>
+                    </div>
+                </div>
+            </li>
+        `
+}
+
 //Render
 const panel = document.querySelector('.gridTopic')
 const updateRender = () => {
@@ -59,64 +122,9 @@ const updateRender = () => {
     board.sets.forEach((list) => {
       let cardsHtml = ""
       list.cards.forEach((card) => {
-        cardsHtml += 
-        `
-            <li data-id="${card.id}" class="line" draggable="true">
-                <div class="cardLine" id="${card.name}">
-                    <input type="checkbox" class="lineFinished" />
-                    <span class="lineTitle" id="Texto aqui">${card.name}</span>
-                    <div class="iconsLine">
-                        <i data-lucide="trash-2" class="icon16 delIcon"></i>
-                    </div>
-                </div>
-            </li>
-        `
+        cardsHtml += cardFunct(card.id, card.name)
       })
-      panel.lastElementChild.insertAdjacentHTML(
-    "beforebegin",
-    `<li class="setList" data-id="${list.id}">
-          <div class="set lists">
-            <div class="titleListArea">
-              <textarea name="listTitle" data-id="${list.name}" class="textareaList">${list.name}</textarea>
-              <span class="listCount">0</span>
-              <div class="rightDropdown">
-                <button class="config">
-                  <i data-lucide="settings" class="icon16"> </i>
-                </button>
-                <div class="configMenu">
-                  <div class="configOption" id="del">
-                    <i data-lucide="trash" class="icon16"></i>
-                    <h1 class="configText">Deletar</h1>
-                  </div>
-                  <div class="configOption">melancia</div>
-                  <div class="configOption">tomates</div>
-                </div>
-              </div>
-            </div>
-            <ol class="cardsList lines">
-              ${cardsHtml}
-            </ol>
-            <ol class="cardsList textArea" style="display: none">
-              <li>
-                <textarea name="cardName" id="cardName" class="cardNameSelect"></textarea>
-                <div class="bottomTextArea">
-                  <button type="button" class="submitNameSelect">Adicionar Lista</button>
-                  <button class="cancelNewCard">
-                    <i data-lucide="X" class="icon16 x"></i>
-                  </button>
-                </div>
-              </li>
-            </ol>
-            <div class="addNewCard" style="display: block">
-              <button class="addNewCardBtn">
-                <i data-lucide="plus" class="icon16"></i>
-                <span>Adicionar um cartão</span>
-              </button>
-            </div>
-          </div>
-        </li>
-      `
-    )
+      listFunct(list.id, list.name, cardsHtml)
 })
 }
 updateRender()
@@ -126,12 +134,14 @@ const createNewSet = document.querySelector('.createTopic')
 const cancelCreate = document.querySelector('.cancelCreate')
 const createTopic = document.querySelector('#createTopic')
 const createTitle = document.querySelector('#createTitle')
-createNewSet.addEventListener('click', () => {
-createTitle.style.display = "block"
-createTopic.style.display = "none"
-updateIcons();
+panel.addEventListener('click', (event) => {
+  const createNewSet = event.target.closest('.createTopic')
+  if (createNewSet) {
+    createTitle.style.display = "block"
+    createTopic.style.display = "none"
+    updateIcons();
+  }
 })
-
 cancelCreate.addEventListener('click', () => {
 createTitle.style.display = "none"
 createTopic.style.display = "block"
@@ -145,9 +155,10 @@ createNewSubmit.addEventListener('click', () => {
         return;
     }
     const setNewName =  nameInputSet.value
-    //push to localStorage
+    //push to localStorage\
+    let id = `list-${Math.random().toString(36).substring(2, 8)}`
     board.sets.push({
-        id: `list-${Math.random().toString(36).substring(2, 8)}`,
+        id: id,
         name: setNewName,
         cards: []
     });
@@ -155,14 +166,12 @@ createNewSubmit.addEventListener('click', () => {
 
 createTitle.style.display = "none"
 createTopic.style.display = "block"
-updateRender()
+listFunct(id, setNewName, [])
 const newList = panel.lastElementChild.previousElementSibling
 setupList(newList)
 nameInputSet.value = ""
 updateIcons()
 })
-
-
 
 let toggle = false
 const warningSetup = document.querySelector('.warningSetup')
@@ -222,7 +231,6 @@ const setupList = (currentList) => {
     currentList.addEventListener('click', (event) => {
         const delListen = event.target.closest('.iconsLine')
         const cancelNewCard = event.target.closest(".cancelNewCard")
-        const createTopic = event.target.closest('.createTopic')
         const currentCard = event.target.closest('.line')
         if (delListen) {
             delSelection = currentCard
@@ -231,7 +239,7 @@ const setupList = (currentList) => {
         } if (cancelNewCard) {
             menuAddCard.style.display = "block"
             newCardTextArea.style.display = "none"
-        } if (createTopic) {}
+        } 
     })
 
     const counter = currentList.querySelector('.listCount')
@@ -265,17 +273,7 @@ const setupList = (currentList) => {
         menuAddCard.style.display = "block"
         newCardTextArea.style.display = "none"
         newId = `list-${Math.random().toString(36).substring(2, 8)}`
-        linesLoc.insertAdjacentHTML("beforeend", `
-            <li data-id="${newId}" class="line" draggable="true">
-                <div class="cardLine" id="${newName}">
-                    <input type="checkbox" class="lineFinished" />
-                    <span class="lineTitle" id="Texto aqui">${newName}</span>
-                    <div class="iconsLine">
-                        <i data-lucide="trash-2" class="icon16 delIcon"></i>
-                    </div>
-                </div>
-            </li>
-        `)
+        linesLoc.insertAdjacentHTML("beforeend", cardFunct(newId, newName))
         counter.innerHTML = linesLoc.children.length
         currentId = currentList.dataset.id
         listIndex = board.sets.findIndex(list => list.id === currentId)
@@ -313,11 +311,13 @@ const setupList = (currentList) => {
                 }
             })
         })
+  let draggedCard = null
   cardList.addEventListener("dragstart", (event) => {
     const card = event.target.closest(".line")
-    if (card) {
-      console.log("arrastando", card.id)
+    if (!card) {
     }
+    console.log("arrastando", card.id)
+    draggedCard = card
   })
 }
 const lists = document.querySelectorAll('.setList')
