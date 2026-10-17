@@ -1,0 +1,435 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Inter', sans-serif;
+}
+
+:root
+
+.boardBackground {
+    width: 100%;
+    height: auto;
+}
+
+.gridTopic {
+    margin-top: 20px;
+    margin-left: 20px;
+    min-width: 100vw;
+    width: auto;
+    min-height: 86.3vh;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+    overflow-x: auto;
+}
+
+.listTopic {
+    width: 110px;
+}
+
+.createTopic {
+    width: 210px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--board-set-transparent);
+    border: 0px;
+    border-radius: 15px;
+    height: 42px;
+}
+
+#createTopic {
+    height: 42px;
+}
+
+.createTopic:hover {
+    height: 42px;
+    background-color: var(--board-set-transparent-two);
+}
+
+.createTopic h1 {
+    font-size: 15px;
+}
+
+.plus {
+    width: 16px;
+    height: 16px;
+    color: var(--primary);
+    margin: 5px;
+}
+
+.set {
+    flex-shrink: 0;
+    min-width: 110px;
+}
+
+#createTitle {
+    display: block;
+    width: 210px;
+    height: 85px;
+    background-color: var(--primary);
+    border-radius: 10px;
+    padding: 5px 0px;
+    border: 1px solid var(--border-two)
+}
+
+
+#titleSet {
+    width: 190px;
+    height: 25px;
+    display: block;
+    margin: 10px auto 0px auto;
+    border-radius: 5px;
+    border: 1px solid var(--border-two)
+}
+
+#titleSet::placeholder {
+    color: var(--border-two);
+    font-weight: bold;
+}
+
+.createNewSet {
+    color: white;
+}
+
+.setCreate {
+    height: 30px;
+    width: 120px;
+    border-radius: 5px;
+    margin-left: 10px;
+    border: 0px;
+    background-color: var(--board-bg-btn);
+    cursor: pointer;
+}
+
+.setCreate:active {
+    filter: brightness(0.9)
+}
+
+.setCreate:hover {
+    background-color: var(--board-btn-hover);
+}
+
+.createSetTitle {
+    color: var(--primary);
+    font-style: normal;
+    font-size: 13px;
+}
+
+.cancelCreate {
+    margin-top: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    border: 0px;
+    background-color: transparent;
+}
+
+.cancelCreate:hover {
+    background-color: var(--board-close-hover);
+}
+
+.closeCreate {
+    width: 20px;
+    height: 20px;
+    margin: auto;
+}
+
+.setList {
+    width: 250px;
+    list-style: none;
+}
+
+.lists {
+    background-color: var(--board-list);
+    border: 1px solid var(--border);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    border-radius: 10px;
+    margin: 0px
+}
+
+.titleListArea {
+    width: 100%;
+    display: flex;
+    margin-top: 15px;
+}
+
+.textareaList {
+    background-color: transparent;
+    outline: 0;
+    border: 0px;
+    font-family: 'inter';
+    font-size: 13px;
+    margin-left: 10px;
+    width: 65%;
+    padding-left: 15px;
+    height: 25px;
+    resize: none;
+    overflow: none;
+    border-radius: 10px;
+}
+
+.textareaList:focus {
+    border: 3px solid var(--board-bg-btn);
+}
+
+.icon16 {
+    width: 16px;
+    height: 16px;
+}
+
+.listCount {
+    margin-right: 10px;
+}
+
+.addNewCard {
+    height: 40px;
+    display: none;
+}
+
+.addNewCardBtn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    height: 35px;
+    margin-left: 10px;
+    background-color: transparent;
+    border-radius: 15px;
+    width: 160px;
+    border: 2px solid transparent;
+}
+
+.addNewCardBtn:hover {
+    border: 2px solid var(--border);
+}
+
+.cardsList {
+    width: 225px;
+    list-style: none;
+    padding: 0;
+    margin: 0px 10px 10px 10px;
+}
+
+.cardNameSelect {
+    padding: 10px;
+    width: 100%;
+    font-family: 'inter';
+    outline: 0px;
+    border: 3px solid var(--board-set-transparent-two);
+    overflow: none;
+    resize: none;
+    border-radius: 5px;
+    background-color: var(--primary);
+    display: flex;
+    box-sizing: border-box;
+    
+}
+
+.submitNameSelect {
+    background-color: var(--board-bg-btn);
+    width: 150px;
+    height: 35px;
+    border: 1px solid var(--board-set-transparent-two);
+    border-radius: 10px;
+    color: var(--primary);
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.cardLine {
+    display: flex;
+    width: 100%;
+    min-height: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 18px;
+    height: auto;
+    border-radius: 15px;
+    background-color: var(--primary);
+    border: 1px solid var(--border-two);
+    justify-content: center;
+}
+
+.cardLine:hover {
+   border: 2px solid var(--board-bg-btn)
+}
+
+.lineFinished {
+    margin: 0px 10px 0px 4px;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    appearance: none;
+    border: 1px solid var(--border-two);
+}
+
+.lineFinished:checked {
+    background-color: var(--bardCheckBoxTrue);
+}
+
+.lineTitle {
+    display: inline-block;
+    width: 130px;
+    height: auto;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    font-size: 15px;
+    font-family: arial;
+}
+
+.iconsLine {
+    width: 32px;
+    display: inline;
+    margin-left: auto;
+    justify-content: center;
+    height: 16px;
+}
+
+.delIcon {
+    color: #bbbbbb;
+}
+
+.delIcon:hover {
+    color: #c92b2b;
+}
+
+.lines > * {
+    margin-top: 5px;
+}
+
+/* espaco para avisos */
+.closeDetect {
+    display: none;
+    inset: 0;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.delConfirm {
+    position: fixed;
+    width: 200px;
+    height: 40px;
+
+}
+
+.bottomTextArea {
+    display: flex;
+}
+
+.cancelNewCard {
+    width: 35px;
+    height: 35px;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-left: 5px;
+    justify-content: center;
+    background-color: var(--primary);
+    border: 1px solid transparent;
+}
+
+.x {
+    margin-top: 5px;
+}
+
+.warningSetup {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    left: 50%;
+    top: 30%;
+    transform: translate(-50%, -50%);
+    background-color: var(--primary);
+    width: 400px;
+    height: auto;
+    border-radius: 15px;
+    border: 1px solid var(--border-two);
+}
+
+.warningDel {
+    width: 80%;
+    height: 30px;
+    text-align: center;
+    font-size: 25px;
+    margin: 40px auto 0px auto;
+}
+
+.buttons {
+    margin: 70px auto 30px auto;
+    width: 345px;
+}
+
+.buttons .button {
+    width: 150px;
+    height: 40px;
+    margin: 0px 10px;
+    border-radius: 10px;
+    border: 1px solid var(--border-two);
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.config {
+    display: flex;
+    width: 32px;
+    height: 32px;
+    margin-top: -5px;
+    margin-left: -5px;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    border: 0px;
+    background-color: transparent;
+}
+
+.config:hover {
+    background-color: var(--board-list);
+}
+
+.rightDropdown{
+    position: relative;
+}
+
+.configMenu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: calc(100% + 20px);
+    gap: 4px;
+}
+
+.configOption {
+    z-index: 3;
+    display: flex;
+    padding: 5px 10px;
+    background-color: var(--dropdwonRight);
+    border-radius: 5px;
+    height: 20px;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    font-weight: normal;
+}
+
+.configText {
+    font-size: 15px;
+}
+
+.line {
+    background-color: transparent;
+}
+
+.cardLine.dragging {
+    opacity: 0;
+    position: absolute;
+}
+
+.dragPlaceholder {
+    border: 2px dashed #888;
+    border-radius: 8px;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+}

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/board.css" />
+    <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/root.css" />
+    <title>Meus quadros</title>
+  </head>
+  <body
+    data-theme="purple"
+    style="background: linear-gradient(180deg, var(--board-bg-first), var(--board-bg-second))"
+  >
+    <div class="header-container">
+      <a href="index.html" class="header-anchor">
+        <div class="header-slogan">
+          <h1 class="header-text">Meu quadro</h1>
+        </div>
+      </a>
+      <div class="search">
+        <i data-lucide="search" class="search-icon"></i>
+        <input type="text" placeholder="Search" id="search" />
+      </div>
+    </div>
+    <div class="boardBackground">
+      <div class="gridTopic"></div>
+    </div>
+    <div class="closeDetect"></div>
+    <div class="warningSetup" style="display: none">
+      <h1 class="warningDel">Tem certeza que quer excluir?</h1>
+      <div class="buttons">
+        <button class="button confirm">Sim</button>
+        <button class="button decline">Nao</button>
+      </div>
+    </div>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="js/board.js"></script>
+  </body>
+</html>
