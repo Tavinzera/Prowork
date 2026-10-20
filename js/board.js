@@ -1,4 +1,4 @@
-//start-up
+//Icons
 const updateIcons = () => {
     lucide.createIcons()
 }
@@ -7,29 +7,32 @@ document.addEventListener('DOMContentLoaded', () => {
     updateIcons();  
 })
 
-// Loading config
+// Get Template ID
 const parms = new URLSearchParams(window.location.search);
 if(parms.has("id")) {
+  
+  console.log("deu certo")
 } else {
-    console.log("Deu certo")
     window.location.href = "index.html"
-    throw new Error("Board not found")
-    
+    throw new Error("Board not found") 
 }
-const templates = JSON.parse(localStorage.getItem("templates")) || [];
 const id = parms.get("id")
-const board = templates.find((template) => template.id === id)
-if (!board){
+
+//Loading template storage
+const templates = JSON.parse(localStorage.getItem("templates")) || [];
+const currentTemplate = templates.find((template) => template.id === id)
+if (!currentTemplate){
     window.location.href = "index.html"
 }
-console.log(board.sets)
+console.log(currentTemplate.sets)
+
 //Updating storage
 const updateStorage = () => {
     localStorage.setItem("templates", JSON.stringify(templates));
 }
 
-//Structures
-const listFunct = (id, name, cards) => {
+//Components
+const componetList = (id, name, cards) => {
   panel.lastElementChild.insertAdjacentHTML(
     "beforebegin",
     `<li class="setList" data-id="${id}">
@@ -77,7 +80,7 @@ const listFunct = (id, name, cards) => {
     )
 }
 
-const cardFunct = (id, name) => {
+const componentCard = (id, name) => {
   return `
             <li data-id="${id}" class="cardLine" draggable="true">
                     <input type="checkbox" class="lineFinished" />
@@ -92,7 +95,6 @@ const cardFunct = (id, name) => {
 //Render
 const panel = document.querySelector('.gridTopic')
 const updateRender = () => {
-    /*panel.innerHTML = ""*/
     panel.innerHTML = 
     `
     <div class="current">
@@ -117,12 +119,12 @@ const updateRender = () => {
           </div>
         </div>
     `
-    board.sets.forEach((list) => {
+    currentTemplate.sets.forEach((list) => {
       let cardsHtml = ""
       list.cards.forEach((card) => {
-        cardsHtml += cardFunct(card.id, card.name)
+        cardsHtml += componentCard(card.id, card.name)
       })
-      listFunct(list.id, list.name, cardsHtml)
+      componetList(list.id, list.name, cardsHtml)
 })
   panel.addEventListener("dragover", (event) => {
     event.preventDefault()
@@ -150,9 +152,7 @@ const updateRender = () => {
     const listName = event.target.closest(".setList")
     if(!listName || !draggedCard) return
     
-    const linesCardTarget = listName.querySelector(".lines")
-
-    linesCardTarget.appendChild(draggedCard)
+    placeholder.replaceWith(draggedCard)
 
     console.log("soltei na lista na lista:", listName.dataset.id)
     console.log("card:", draggedCard.dataset.id)
@@ -191,7 +191,7 @@ createNewSubmit.addEventListener('click', () => {
     const setNewName =  nameInputSet.value
     //push to localStorage\
     let id = `list-${Math.random().toString(36).substring(2, 8)}`
-    board.sets.push({
+    currentTemplate.sets.push({
         id: id,
         name: setNewName,
         cards: []
@@ -200,7 +200,7 @@ createNewSubmit.addEventListener('click', () => {
 
 createTitle.style.display = "none"
 createTopic.style.display = "block"
-listFunct(id, setNewName, [])
+componetList(id, setNewName, [])
 const newList = panel.lastElementChild.previousElementSibling
 setupList(newList)
 nameInputSet.value = ""
@@ -256,8 +256,8 @@ const setupList = (currentList) => {
     textAreaList.addEventListener('input', () => {
         textAreaList.dataset.id = textAreaList.value
       let currentId = currentList.dataset.id
-      let listIndex = board.sets.findIndex(list => list.id === currentId)
-      board.sets[listIndex].name = textAreaList.value
+      let listIndex = currentTemplate.sets.findIndex(list => list.id === currentId)
+      currentTemplate.sets[listIndex].name = textAreaList.value
       updateStorage()
     })
 
@@ -308,11 +308,11 @@ const setupList = (currentList) => {
         menuAddCard.style.display = "block"
         newCardTextArea.style.display = "none"
         newId = `card-${Math.random().toString(36).substring(2, 8)}`
-        linesLoc.insertAdjacentHTML("beforeend", cardFunct(newId, newName))
+        linesLoc.insertAdjacentHTML("beforeend", componentCard(newId, newName))
         counter.innerHTML = linesLoc.children.length
         currentId = currentList.dataset.id
-        listIndex = board.sets.findIndex(list => list.id === currentId)
-        board.sets[listIndex].cards.push({
+        listIndex = currentTemplate.sets.findIndex(list => list.id === currentId)
+        currentTemplate.sets[listIndex].cards.push({
           id: newId,
           name: newName,
         })
@@ -340,8 +340,8 @@ const setupList = (currentList) => {
                 if (configOption.id === "del") {
                     currentList.remove()
                     currentId = currentList.dataset.id
-                    listIndex = board.sets.findIndex(list => list.id === currentId)
-                    board.sets.splice(listIndex, 1)
+                    listIndex = currentTemplate.sets.findIndex(list => list.id === currentId)
+                    currentTemplate.sets.splice(listIndex, 1)
                     updateStorage()
                 }
             })
@@ -367,17 +367,18 @@ const setupList = (currentList) => {
         event.offsetY
     )
 
-    card.classList.add("dragging")
+    
     /*
     draggedHeight = card.offsetHeight
     */
    setTimeout(() => {
-    
+    card.classList.add("dragging")
     placeholder = document.createElement("li")
     placeholder.classList.add("dragPlaceHolder")
     placeholder.style.height = `${card.offsetHeight}px`
     card.parentNode.insertBefore(placeholder, card)
    }, 0)
+   
     /*
     setTimeout(() => {
       card.classList.add("dragging")
@@ -419,12 +420,12 @@ warningSetup.addEventListener('click', (event) => {
     return
   }
   if(buttons.id == "confirm") {
-    listIndex = board.sets.findIndex(list => list.id === currentId)
-    cardIndex = board.sets[listIndex].cards.findIndex(card => card.id === delSelection.dataset.id)
+    listIndex = currentTemplate.sets.findIndex(list => list.id === currentId)
+    cardIndex = currentTemplate.sets[listIndex].cards.findIndex(card => card.id === delSelection.dataset.id)
     console.log(delSelection.dataset.id)
     console.log(cardIndex)
     console.log(listIndex)
-    board.sets[listIndex].cards.splice(cardIndex, 1)
+    currentTemplate.sets[listIndex].cards.splice(cardIndex, 1)
     delSelection.remove()
     updateStorage()
     waring()

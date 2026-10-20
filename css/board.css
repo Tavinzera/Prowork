@@ -1,7 +1,7 @@
 body {
     margin: 0px;
     padding: 0px;
-    font-family: 'Inter', sans-serif;
+    font-family: sans-serif;
 }
 
 :root
@@ -161,8 +161,7 @@ body {
     background-color: transparent;
     outline: 0;
     border: 0px;
-    font-family: 'inter';
-    font-size: 13px;
+    font-size: 15px;
     margin-left: 10px;
     width: 65%;
     padding-left: 15px;
