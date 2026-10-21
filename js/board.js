@@ -35,7 +35,7 @@ const updateStorage = () => {
 const componetList = (id, name, cards) => {
   panel.lastElementChild.insertAdjacentHTML(
     "beforebegin",
-    `<li class="setList" data-id="${id}">
+    `<li class="list" data-id="${id}">
           <div class="set lists">
             <div class="titleListArea">
               <textarea name="listTitle" data-id="${name}" class="textareaList">${name}</textarea>
@@ -59,7 +59,7 @@ const componetList = (id, name, cards) => {
             </ol>
             <ol class="cardsList textArea" style="display: none">
               <li>
-                <textarea name="cardName" id="cardName" class="cardNameSelect"></textarea>
+                <textarea name="cardName" id="${name}" class="cardNameSelect"></textarea>
                 <div class="bottomTextArea">
                   <button type="button" class="submitNameSelect">Adicionar Lista</button>
                   <button class="cancelNewCard">
@@ -84,7 +84,7 @@ const componentCard = (id, name) => {
   return `
             <li data-id="${id}" class="cardLine" draggable="true">
                     <input type="checkbox" class="lineFinished" />
-                    <span class="lineTitle" id="Texto aqui">${name}</span>
+                    <span class="lineTitle" id="${name}">${name}</span>
                     <div class="iconsLine">
                         <i data-lucide="trash-2" class="icon16 delIcon"></i>
                     </div>
@@ -125,8 +125,8 @@ const updateRender = () => {
         cardsHtml += componentCard(card.id, card.name)
       })
       componetList(list.id, list.name, cardsHtml)
-})
-  panel.addEventListener("dragover", (event) => {
+    })
+  /*panel.addEventListener("dragover", (event) => {
     event.preventDefault()
     if(!draggedCard || !placeholder) return
 
@@ -140,14 +140,15 @@ const updateRender = () => {
       card.parentNode.insertBefore(placeholder, card)
     } else {
       card.parentNode.insertBefore(placeholder, card.nextSibling)
-    }
+    }*/
 
     /*const listName = event.target.closest(".setList")
     if(!listName) return
     console.log("passando na lista:", listName.dataset.id)
-    */
-  })
-  panel.addEventListener("drop", (event) => {
+    */ 
+  //})
+
+  /*panel.addEventListener("drop", (event) => {
     event.preventDefault()
     const listName = event.target.closest(".setList")
     if(!listName || !draggedCard) return
@@ -156,39 +157,47 @@ const updateRender = () => {
 
     console.log("soltei na lista na lista:", listName.dataset.id)
     console.log("card:", draggedCard.dataset.id)
-  })
+  })*/
 }
 updateRender()
 
-//Current transition
-const createNewSet = document.querySelector('.createTopic')
-const cancelCreate = document.querySelector('.cancelCreate')
-const createTopic = document.querySelector('#createTopic')
-const createTitle = document.querySelector('#createTitle')
+/*  Dragging values
 let draggedCard = null
 let placeholder = null
 let draggedHeight = 0
+*/
+
+//Creating lists functions
+/*const createNewSet = document.querySelector('.createTopic')*/
+const createTopic = document.querySelector('#createTopic')
+const createTitle = document.querySelector('#createTitle')
+
+
 panel.addEventListener('click', (event) => {
-  const createNewSet = event.target.closest('.createTopic')
-  if (createNewSet) {
+  if (event.target.closest('.createTopic')) {
     createTitle.style.display = "block"
     createTopic.style.display = "none"
     updateIcons();
   }
 })
+
+const cancelCreate = document.querySelector('.cancelCreate')
 cancelCreate.addEventListener('click', () => {
 createTitle.style.display = "none"
 createTopic.style.display = "block"
 updateIcons();
 })
+
 //Creating new pages
 const createNewSubmit = document.querySelector('.setCreate')
 const nameInputSet = document.getElementById('titleSet')
+
 createNewSubmit.addEventListener('click', () => {
-    if(!nameInputSet.value.trim()){
+  const setNewName =  nameInputSet.value
+    if(!setNewName.trim()){
         return;
     }
-    const setNewName =  nameInputSet.value
+
     //push to localStorage\
     let id = `list-${Math.random().toString(36).substring(2, 8)}`
     currentTemplate.sets.push({
@@ -240,19 +249,10 @@ const waring = (color, type, functionName) => {
 
 let delSelection = null
 const setupList = (currentList) => {
-    if(!currentList){
-      return
-    }
-    const textAreaList = currentList.querySelector('.textareaList');
-    const newCardBtn = currentList.querySelector('.addNewCardBtn');
-    const newCardTextArea = currentList.querySelector('.textArea');
-    const menuAddCard = currentList.querySelector('.addNewCard');
-    const TextAreaListener = currentList.querySelector('.submitNameSelect');
-    const cardNameSelect = currentList.querySelector('.cardNameSelect');
-    const linesLoc = currentList.querySelector('.lines')
-    const cardList = currentList.querySelector('.cardsList')
+    if(!currentList) return
 
-    currentList.id = textAreaList.value
+    //Auto change list name
+    const textAreaList = currentList.querySelector('.textareaList');
     textAreaList.addEventListener('input', () => {
         textAreaList.dataset.id = textAreaList.value
       let currentId = currentList.dataset.id
@@ -261,30 +261,13 @@ const setupList = (currentList) => {
       updateStorage()
     })
 
-    currentList.addEventListener('click', (event) => {
-        const delListen = event.target.closest('.iconsLine')
-        const cancelNewCard = event.target.closest(".cancelNewCard")
-        const currentCard = event.target.closest('.cardLine')
-        if (delListen) {
-            delSelection = currentCard
-            console.log(currentCard)
-            console.log(delSelection.dataset.id)
-            currentId = currentList.dataset.id
-            waring("transparent", "del")
-        } if (cancelNewCard) {
-            menuAddCard.style.display = "block"
-            newCardTextArea.style.display = "none"
-        } 
-    })
-
-    const counter = currentList.querySelector('.listCount')
-    counter.innerHTML = linesLoc.children.length
-
-    /*textArea*/
+        //auto size
     textAreaList.addEventListener('input', () => {
         textAreaList.style.height = '25px'
         textAreaList.style.height = `${textAreaList.scrollHeight}px`;
     })
+
+    //security textarea
     let lastAreaText = textAreaList.value
     textAreaList.addEventListener('focus', () => {
         lastAreaText = textAreaList.value
@@ -294,11 +277,38 @@ const setupList = (currentList) => {
             textAreaList.value = lastAreaText
         }
     })
+
+    //delete card
+    const newCardTextArea = currentList.querySelector('.textArea');
+    const menuAddCard = currentList.querySelector('.addNewCard');
+    currentList.addEventListener('click', (event) => { 
+        const currentCard = event.target.closest('.cardLine')
+        if (event.target.closest('.iconsLine')) {
+            delSelection = currentCard
+            console.log(currentCard)
+            console.log(delSelection.dataset.id)
+            currentId = currentList.dataset.id
+            waring("transparent", "del")
+        } if (event.target.closest(".cancelNewCard")) {
+            menuAddCard.style.display = "block"
+            newCardTextArea.style.display = "none"
+        } 
+    })
+
+    //count cards number
+    const counter = currentList.querySelector('.listCount')
+    const linesLoc = currentList.querySelector('.lines')
+    counter.innerHTML = linesLoc.children.length
+    
+    //create new cards
+    const newCardBtn = currentList.querySelector('.addNewCardBtn');
     newCardBtn.addEventListener('click', () => {
         menuAddCard.style.display = "none"
         newCardTextArea.style.display = "block"
     })
-    /*criar nova linha*/
+
+    const TextAreaListener = currentList.querySelector('.submitNameSelect');
+    const cardNameSelect = currentList.querySelector('.cardNameSelect');
     TextAreaListener.addEventListener('click', () => {
         if(!cardNameSelect.value){
             return
@@ -347,6 +357,7 @@ const setupList = (currentList) => {
             })
         })
   //Dragging cards
+  const cardList = currentList.querySelector('.cardsList')
   cardList.addEventListener("dragstart", (event) => {
     const card = event.target.closest(".cardLine")
     if (!card) {
@@ -410,7 +421,7 @@ const setupList = (currentList) => {
   })
 
 }
-const lists = document.querySelectorAll('.setList')
+const lists = document.querySelectorAll('.list')
 lists.forEach((list) => {
     setupList(list)
 })  
