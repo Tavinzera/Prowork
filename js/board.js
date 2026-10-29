@@ -35,7 +35,7 @@ const updateStorage = () => {
 const componetList = (id, name, cards) => {
   panel.lastElementChild.insertAdjacentHTML(
     "beforebegin",
-    `<li class="list" data-id="${id}">
+    `<li class="list" data-id="${id}" draggable="true">
           <div class="set lists">
             <div class="titleListArea">
               <textarea name="listTitle" data-id="${name}" class="textareaList">${name}</textarea>
@@ -126,49 +126,10 @@ const updateRender = () => {
       })
       componetList(list.id, list.name, cardsHtml)
     })
-  /*panel.addEventListener("dragover", (event) => {
-    event.preventDefault()
-    if(!draggedCard || !placeholder) return
-
-    const card = event.target.closest(".cardLine")
-    if(!card || card === draggedCard) return
-    const rect = card.getBoundingClientRect()
-    const mouseY = event.clientY
-    const middle = rect.top + rect.height / 2
-
-    if(mouseY < middle) {
-      card.parentNode.insertBefore(placeholder, card)
-    } else {
-      card.parentNode.insertBefore(placeholder, card.nextSibling)
-    }*/
-
-    /*const listName = event.target.closest(".setList")
-    if(!listName) return
-    console.log("passando na lista:", listName.dataset.id)
-    */ 
-  //})
-
-  /*panel.addEventListener("drop", (event) => {
-    event.preventDefault()
-    const listName = event.target.closest(".setList")
-    if(!listName || !draggedCard) return
-    
-    placeholder.replaceWith(draggedCard)
-
-    console.log("soltei na lista na lista:", listName.dataset.id)
-    console.log("card:", draggedCard.dataset.id)
-  })*/
 }
 updateRender()
 
-/*  Dragging values
-let draggedCard = null
-let placeholder = null
-let draggedHeight = 0
-*/
-
 //Creating lists functions
-/*const createNewSet = document.querySelector('.createTopic')*/
 const createTopic = document.querySelector('#createTopic')
 const createTitle = document.querySelector('#createTitle')
 
@@ -194,26 +155,26 @@ const nameInputSet = document.getElementById('titleSet')
 
 createNewSubmit.addEventListener('click', () => {
   const setNewName =  nameInputSet.value
-    if(!setNewName.trim()){
-        return;
-    }
+  if(!setNewName.trim()){
+    return;
+  }
 
-    //push to localStorage\
-    let id = `list-${Math.random().toString(36).substring(2, 8)}`
-    currentTemplate.sets.push({
-        id: id,
-        name: setNewName,
-        cards: []
-    });
-    updateStorage()
+  //push to localStorage\
+  let id = `list-${Math.random().toString(36).substring(2, 8)}`
+  currentTemplate.sets.push({
+    id: id,
+    name: setNewName,
+    cards: []
+  });
+  updateStorage()
 
-createTitle.style.display = "none"
-createTopic.style.display = "block"
-componetList(id, setNewName, [])
-const newList = panel.lastElementChild.previousElementSibling
-setupList(newList)
-nameInputSet.value = ""
-updateIcons()
+  createTitle.style.display = "none"
+  createTopic.style.display = "block"
+  componetList(id, setNewName, [])
+  const newList = panel.lastElementChild.previousElementSibling
+  setupList(newList)
+  nameInputSet.value = ""
+  updateIcons()
 })
 
 let toggle = false
@@ -247,6 +208,67 @@ const waring = (color, type, functionName) => {
     })
 }
 
+//Moving cards
+
+const syncFromDOM = () => {
+  const porId = {}
+  currentTemplate.sets.forEach(s => s.cards.forEach(c => porId[c.id] = c))
+
+  panel.querySelectorAll('.list').forEach(listEl => {
+    const set = currentTemplate.sets.find(s => s.id === listEl.dataset.id)
+    if (!set) return
+
+    const linhas = [...listEl.querySelectorAll('.lines .cardLine')]
+    set.cards = linhas.map(li => porId[li.dataset.id] || {
+      id: li.dataset.id,
+      name: li.querySelector('.lineTitle')?.textContent ?? ''
+    })
+
+    const contador = listEl.querySelector('.listCount')
+    if (contador) contador.textContent = linhas.length
+  })
+
+  updateStorage()
+}
+
+let placeholder = null
+let draggedCard = null
+const findCardLoc = (list, posY) => {
+  const cards = [...list.querySelectorAll('.cardLine:not(.dragging)')]
+  return cards.find(card => {
+    const box = card.getBoundingClientRect()
+    return posY < box.top + box.height / 2;
+  }) || null;
+}
+
+panel.addEventListener("dragstart", event => {
+  const cardSelected = event.target.closest(".cardLine")
+  const listSelected = event.target.closest(".list")
+  if (!cardSelected && !listSelected) return
+  const currentItem = cardSelected || listSelected
+  console.log("voce segurou " + currentItem.className)
+
+  setTimeout(() => {
+    placeholder = document.createElement("li")
+    placeholder.className = "dragPlaceholder"
+    if (draggedCard) {}
+    placeholder.style.height = cardSelected.offsetHeight + "px"
+    cardSelected.after(placeholder)
+    cardSelected.style.display = "none"
+  
+  }, 0)
+
+})
+
+panel.addEventListener("dragend", () => {
+  if(!draggedCard) return
+  placeholder?.remove()
+  draggedCard.style.display = ""
+  draggedCard = ""
+  placeholder = ""
+  syncFromDOM();
+})
+
 let delSelection = null
 const setupList = (currentList) => {
     if(!currentList) return
@@ -261,7 +283,7 @@ const setupList = (currentList) => {
       updateStorage()
     })
 
-        //auto size
+    //auto size
     textAreaList.addEventListener('input', () => {
         textAreaList.style.height = '25px'
         textAreaList.style.height = `${textAreaList.scrollHeight}px`;
@@ -330,20 +352,24 @@ const setupList = (currentList) => {
         updateIcons()
     })
 
+    //cards function
     const configBtn = currentList.querySelector('.config')
     const configMenu = currentList.querySelector('.configMenu')
     configBtn.addEventListener('click', () => {
         waring("transparent", "configBtn", configDropRigth)
     })
+
     const configDropRigth = () => {
         configMenu.style.display = "flex"
     }
+
     configBtn.addEventListener('click', () => {
         closeDectect.addEventListener('click', () => {
             configMenu.style.display = "none"
         })
         
     })
+    
     const configOptions = currentList.querySelectorAll('.configOption')
         configOptions.forEach((configOption) => {
             configOption.addEventListener('click', () => {
@@ -356,75 +382,30 @@ const setupList = (currentList) => {
                 }
             })
         })
+        
   //Dragging cards
-  const cardList = currentList.querySelector('.cardsList')
-  cardList.addEventListener("dragstart", (event) => {
-    const card = event.target.closest(".cardLine")
-    if (!card) {
-      return
-    }
-
-    draggedCard = card
-    dragImage = card.cloneNode(true)
-    dragImage.style.position = "absolute"
-    dragImage.style.top = "-1000px"
-    dragImage.style.left = "-1000px"
-    dragImage.style.width = `${card.offsetWidth}px`
-    document.body.appendChild(dragImage)
-
-    event.dataTransfer.setDragImage(
-        dragImage,
-        event.offsetX,
-        event.offsetY
-    )
-
-    
-    /*
-    draggedHeight = card.offsetHeight
-    */
-   setTimeout(() => {
-    card.classList.add("dragging")
-    placeholder = document.createElement("li")
-    placeholder.classList.add("dragPlaceHolder")
-    placeholder.style.height = `${card.offsetHeight}px`
-    card.parentNode.insertBefore(placeholder, card)
-   }, 0)
-   
-    /*
-    setTimeout(() => {
-      card.classList.add("dragging")
-    }, 0)
-    */
-    console.log("arrastando", card.dataset.id)
-    
-    console.log(draggedCard.dataset.id)
+  const listArea = currentList.querySelector('.cardsList')
+  listArea.addEventListener("dragover", e => {
+    if(!draggedCard || !placeholder) return
+   e.preventDefault()
+    const currentPos = findCardLoc(listArea, e.clientY)
+    listArea.insertBefore(placeholder, currentPos)
   })
 
-  cardList.addEventListener("dragend", (event) => {
-    const card = event.target.closest(".cardLine")
-    if (!card) {
-      return
-    }
-    
-    if (placeholder) {
-    placeholder.remove()
-    placeholder = null
-    }
-    card.classList.remove("dragging")
-    if (dragImage) {
-      dragImage.remove()
-      dragImage = null
-    }
-    console.log(draggedCard.dataset.id)
-    draggedCard = null
-    placeholder = null
+  listArea.addEventListener("drop", e => {
+    e.preventDefault()
+    if (!draggedCard || !placeholder) return
+    placeholder.replaceWith(draggedCard)   // o card assume o lugar do placeholder
+    draggedCard.style.display = ""
   })
-
 }
+
+//Loading lists
 const lists = document.querySelectorAll('.list')
 lists.forEach((list) => {
-    setupList(list)
-})  
+  setupList(list)
+})
+  
 warningSetup.addEventListener('click', (event) => {
   const buttons = event.target.closest('.button')
   if(!buttons) {
@@ -444,3 +425,4 @@ warningSetup.addEventListener('click', (event) => {
     waring()
   }
 })
+

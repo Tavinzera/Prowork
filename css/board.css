@@ -426,9 +426,11 @@ body {
     position: absolute;
 }
 
-.dragPlaceholder {
-    border: 2px dashed #888;
-    border-radius: 8px;
-    box-sizing: border-box;
-    margin-bottom: 8px;
+.dragPlaceHolder {
+  list-style: none;
+  border: 2px dashed #2f6fed;
+  border-radius: 8px;
+  background: rgba(47, 111, 237, .08);
 }
+
+.lines { min-height: 40px; }
