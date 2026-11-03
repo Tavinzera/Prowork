@@ -1,4 +1,4 @@
-import { cards } from "./cards.js";
+import { cardsFunct } from "./cards.js";
 
 //Icons
 const updateIcons = () => {
@@ -131,7 +131,11 @@ const updateRender = () => {
       let cardsHtml = []
       console.log(cardsHtml)
       list.cards.forEach((c) => {
-        cardsHtml.push(cards(c.id, c.name))
+        cardsHtml.push(cardsFunct(c.id, c.name, (data) => {
+          delSelection = data.card
+          currentId = data.list
+           warning("transparent", "del")  
+        }))
         
       })
       componetList(list.id, list.name, cardsHtml)
@@ -325,7 +329,7 @@ const setupList = (currentList) => {
     //delete card
     const newCardTextArea = currentList.querySelector('.textArea');
     const menuAddCard = currentList.querySelector('.addNewCard');
-    currentList.addEventListener('click', (event) => { 
+    /*currentList.addEventListener('click', (event) => { 
         const currentCard = event.target.closest('.cardLine')
         if (event.target.closest('.iconsLine')) {
             delSelection = currentCard
@@ -338,6 +342,8 @@ const setupList = (currentList) => {
             newCardTextArea.style.display = "none"
         } 
     })
+    */
+
 
     //count cards number
     const counter = currentList.querySelector('.listCount')
@@ -362,7 +368,7 @@ const setupList = (currentList) => {
         menuAddCard.style.display = "block"
         newCardTextArea.style.display = "none"
         newId = `card-${Math.random().toString(36).substring(2, 8)}`
-        linesLoc.append(cards(newId, newName))
+        linesLoc.append(cardsFunct(newId, newName))
         counter.innerHTML = linesLoc.children.length
         currentId = currentList.dataset.id
         listIndex = currentTemplate.sets.findIndex(list => list.id === currentId)
@@ -460,3 +466,30 @@ warningSetup.addEventListener('click', (event) => {
   }
 })
 
+export function warning (color, type, functionName) {
+    if (!toggle){
+        closeDectect.style.display = "block"
+        closeDectect.style.background = color
+        if (type === "del") {
+            warningSetup.innerHTML = 
+            `
+                <h1 class="warningDel">Tem certeza que quer excluir?</h1>
+                <div class="buttons">
+                    <button class="button" id="confirm">Sim</button>
+                    <button class="button" id="decline">Nao</button>
+                </div>
+            `
+            warningSetup.style.display = "block"
+        } else if (type === "configBtn") {
+            functionName()
+        }
+        toggle = true
+    } else {
+        closeDectect.style.display = "none"
+        warningSetup.style.display = "none"
+        toggle = false
+    }
+    closeDectect.addEventListener('click', () => {
+      waring()
+    })
+}
