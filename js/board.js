@@ -1,3 +1,5 @@
+import { cards } from "./cards.js";
+
 //Icons
 const updateIcons = () => {
     lucide.createIcons()
@@ -55,7 +57,7 @@ const componetList = (id, name, cards) => {
               </div>
             </div>
             <ol class="cardsList lines" data-id>
-              ${cards}
+              
             </ol>
             <ol class="cardsList textArea" style="display: none">
               <li>
@@ -78,9 +80,15 @@ const componetList = (id, name, cards) => {
         </li>
       `
     )
+    const listElement = panel.querySelector(
+      `.list[data-id="${id}"] .cardsList.lines`
+    )
+    console.log("Cards recebidos:", cards);
+console.log("Lista encontrada:", listElement);
+    listElement.append(...cards)
 }
 
-const componentCard = (id, name) => {
+/*const componentCard = (id, name) => {
   return `
             <li data-id="${id}" class="cardLine" draggable="true">
                     <input type="checkbox" class="lineFinished" />
@@ -90,7 +98,7 @@ const componentCard = (id, name) => {
                     </div>
             </li>
         `
-}
+}*/
 
 //Render
 const panel = document.querySelector('.gridTopic')
@@ -120,9 +128,11 @@ const updateRender = () => {
         </div>
     `
     currentTemplate.sets.forEach((list) => {
-      let cardsHtml = ""
-      list.cards.forEach((card) => {
-        cardsHtml += componentCard(card.id, card.name)
+      let cardsHtml = []
+      console.log(cardsHtml)
+      list.cards.forEach((c) => {
+        cardsHtml.push(cards(c.id, c.name))
+        
       })
       componetList(list.id, list.name, cardsHtml)
     })
@@ -232,7 +242,8 @@ const syncFromDOM = () => {
 }
 
 let placeholder = null
-let draggedCard = null
+let currentItem = null
+
 const findCardLoc = (list, posY) => {
   const cards = [...list.querySelectorAll('.cardLine:not(.dragging)')]
   return cards.find(card => {
@@ -241,33 +252,44 @@ const findCardLoc = (list, posY) => {
   }) || null;
 }
 
+const findListLoc = (e, posY) => {
+  const lists = [...e.querySelectorAll('.list:not(.dragging)')]
+  return lists.find(list => {
+    const box = list.getBoundingClientRect()
+    return posY < box.top + box.height /2
+  }) || null
+}
+
 panel.addEventListener("dragstart", event => {
   const cardSelected = event.target.closest(".cardLine")
   const listSelected = event.target.closest(".list")
+
   if (!cardSelected && !listSelected) return
-  const currentItem = cardSelected || listSelected
+  currentItem = cardSelected || listSelected
   console.log("voce segurou " + currentItem.className)
 
   setTimeout(() => {
     placeholder = document.createElement("li")
     placeholder.className = "dragPlaceholder"
-    if (draggedCard) {}
-    placeholder.style.height = cardSelected.offsetHeight + "px"
-    cardSelected.after(placeholder)
-    cardSelected.style.display = "none"
-  
+    placeholder.style.height = currentItem.offsetHeight + "px"
+    currentItem.after(placeholder)
+    currentItem.style.display = "none"
   }, 0)
-
 })
 
 panel.addEventListener("dragend", () => {
-  if(!draggedCard) return
+  if(!currentItem) return
   placeholder?.remove()
-  draggedCard.style.display = ""
-  draggedCard = ""
+  currentItem.style.display = ""
+  currentItem = ""
   placeholder = ""
   syncFromDOM();
 })
+
+let newId = 0
+let currentId = 0
+let listIndex = 0
+let cardIndex = 0
 
 let delSelection = null
 const setupList = (currentList) => {
@@ -277,8 +299,8 @@ const setupList = (currentList) => {
     const textAreaList = currentList.querySelector('.textareaList');
     textAreaList.addEventListener('input', () => {
         textAreaList.dataset.id = textAreaList.value
-      let currentId = currentList.dataset.id
-      let listIndex = currentTemplate.sets.findIndex(list => list.id === currentId)
+      currentId = currentList.dataset.id
+      listIndex = currentTemplate.sets.findIndex(list => list.id === currentId)
       currentTemplate.sets[listIndex].name = textAreaList.value
       updateStorage()
     })
@@ -340,7 +362,7 @@ const setupList = (currentList) => {
         menuAddCard.style.display = "block"
         newCardTextArea.style.display = "none"
         newId = `card-${Math.random().toString(36).substring(2, 8)}`
-        linesLoc.insertAdjacentHTML("beforeend", componentCard(newId, newName))
+        linesLoc.append(cards(newId, newName))
         counter.innerHTML = linesLoc.children.length
         currentId = currentList.dataset.id
         listIndex = currentTemplate.sets.findIndex(list => list.id === currentId)
@@ -384,21 +406,33 @@ const setupList = (currentList) => {
         })
         
   //Dragging cards
-  const listArea = currentList.querySelector('.cardsList')
-  listArea.addEventListener("dragover", e => {
-    if(!draggedCard || !placeholder) return
-   e.preventDefault()
-    const currentPos = findCardLoc(listArea, e.clientY)
-    listArea.insertBefore(placeholder, currentPos)
-  })
+  const cardArea = currentList.querySelector('.cardsList')
 
-  listArea.addEventListener("drop", e => {
-    e.preventDefault()
-    if (!draggedCard || !placeholder) return
-    placeholder.replaceWith(draggedCard)   // o card assume o lugar do placeholder
-    draggedCard.style.display = ""
-  })
+    cardArea.addEventListener("dragover", e => {
+      if(!currentItem || !currentItem.classList.contains("cardLine") || !placeholder) return
+      e.preventDefault()
+      const currentPos = findCardLoc(cardArea, e.clientY)
+      cardArea.insertBefore(placeholder, currentPos)
+    })
+
+    cardArea.addEventListener("drop", e => {
+      e.preventDefault()
+      if (!currentItem || !placeholder) return
+      placeholder.replaceWith(currentItem)
+      currentItem.style.display = ""
+    })
 }
+
+panel.addEventListener("dragover", e => {
+  if (!currentItem || !currentItem.classList.contains("list") || !placeholder) return
+  e.preventDefault()
+  placeholder.style.width = "200px"
+  const currentPos = findListLoc(panel, e.clientX)
+  console.log(currentPos)
+  if(currentPos) {
+  panel.insertBefore(placeholder, currentPos)
+  }
+})
 
 //Loading lists
 const lists = document.querySelectorAll('.list')
