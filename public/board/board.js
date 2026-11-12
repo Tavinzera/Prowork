@@ -1,4 +1,12 @@
 import { cardsFunct } from "./cards.js";
+import { board } from './router.js'
+
+const route = board()
+console.log(route.data)
+if (route.data === null){
+  console.log("Nao existe")
+  window.location.href = "/"
+}
 
 //Icons
 const updateIcons = () => {
@@ -10,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 // Get Template ID
+/*
 const parms = new URLSearchParams(window.location.search);
 if(parms.has("id")) {
   
@@ -19,14 +28,17 @@ if(parms.has("id")) {
     throw new Error("Board not found") 
 }
 const id = parms.get("id")
+*/
 
 //Loading template storage
+/*
 const templates = JSON.parse(localStorage.getItem("templates")) || [];
 const currentTemplate = templates.find((template) => template.id === id)
 if (!currentTemplate){
     window.location.href = "index.html"
 }
 console.log(currentTemplate.sets)
+*/
 
 //Updating storage
 const updateStorage = () => {
