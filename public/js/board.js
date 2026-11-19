@@ -1,15 +1,15 @@
 import { cardsFunct } from "./cards.js";
 import { board } from './router.js'
 import * as storage from './storage.js'
+import * as list from './Components/lists.js'
 
-const templates = JSON.parse(localStorage.getItem("templates")) || []
-const route = board()
-if (!route.data){
-  console.log(route.data)
+const router = board()
+if (!router.data){
+  console.log(router.data)
   throw new Error("Nao foi encontrado o template")
 }
 
-const currentTemplate = route.data
+const currentTemplate = router.data
 
 //Icons
 const updateIcons = () => {
@@ -17,13 +17,21 @@ const updateIcons = () => {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    updateIcons();  
+    updateIcons();
+
+    
+    boardBackGround.append(current)
 })
 
+//Building createTopic in the site
+const boardBackGround = document.querySelector('.boardBackground')
+const createTopicModule = list.createTopic()
+boardBackGround.append(createTopicModule)
 
 //Components
+const panel = document.querySelector('.gridTopic')
 const componetList = (id, name, cards) => {
-  panel.lastElementChild.insertAdjacentHTML(
+  panel.insertAdjacentHTML(
     "beforebegin",
     `<li class="list" data-id="${id}" draggable="true">
           <div class="set lists">
@@ -68,31 +76,24 @@ const componetList = (id, name, cards) => {
         </li>
       `
     )
+    /*
     const listElement = panel.querySelector(
       `.list[data-id="${id}"] .cardsList.lines`
     )
-    console.log("Cards recebidos:", cards);
-console.log("Lista encontrada:", listElement);
+
     listElement.append(...cards)
+    */
 }
 
-/*const componentCard = (id, name) => {
-  return `
-            <li data-id="${id}" class="cardLine" draggable="true">
-                    <input type="checkbox" class="lineFinished" />
-                    <span class="lineTitle" id="${name}">${name}</span>
-                    <div class="iconsLine">
-                        <i data-lucide="trash-2" class="icon16 delIcon"></i>
-                    </div>
-            </li>
-        `
-}*/
 
 //Render
-const panel = document.querySelector('.gridTopic')
+
 const updateRender = () => {
-    panel.innerHTML = 
-    `
+  
+
+  
+  
+    /*`
     <div class="current">
           <div class="set" id="createTopic">
             <button class="createTopic">
@@ -115,9 +116,10 @@ const updateRender = () => {
           </div>
         </div>
     `
+    */
+    
     currentTemplate.sets.forEach((list) => {
       let cardsHtml = []
-      console.log(cardsHtml)
       list.cards.forEach((c) => {
         cardsHtml.push(cardsFunct(c.id, c.name, (data) => {
           delSelection = data.card
@@ -132,17 +134,15 @@ const updateRender = () => {
 updateRender()
 
 //Creating lists functions
-const createTopic = document.querySelector('#createTopic')
+const createTopic = document.querySelector('#createTopicModule')
 const createTitle = document.querySelector('#createTitle')
 
 
-panel.addEventListener('click', (event) => {
-  if (event.target.closest('.createTopic')) {
+const createTopicOn = () => {
     createTitle.style.display = "block"
     createTopic.style.display = "none"
     updateIcons();
-  }
-})
+}
 
 const cancelCreate = document.querySelector('.cancelCreate')
 cancelCreate.addEventListener('click', () => {
@@ -244,14 +244,15 @@ const findCardLoc = (list, posY) => {
   }) || null;
 }
 
-const findListLoc = (e, posY) => {
+const findListLoc = (e, posX) => {
   const lists = [...e.querySelectorAll('.list:not(.dragging)')]
   return lists.find(list => {
     const box = list.getBoundingClientRect()
-    return posY < box.top + box.height /2
+    return posX < box.left + box.width /2
   }) || null
 }
 
+//draglist
 panel.addEventListener("dragstart", event => {
   const cardSelected = event.target.closest(".cardLine")
   const listSelected = event.target.closest(".list")
@@ -262,9 +263,11 @@ panel.addEventListener("dragstart", event => {
 
   setTimeout(() => {
     placeholder = document.createElement("li")
-    placeholder.className = "dragPlaceholder"
+    placeholder.className = "placeholder"
+    placeholder.style.width = "250px"
+    placeholder.style.height = "50px"
     placeholder.style.height = currentItem.offsetHeight + "px"
-    currentItem.after(placeholder)
+    currentItem.insertBefore(placeholder)
     currentItem.style.display = "none"
   }, 0)
 })
@@ -417,14 +420,16 @@ const setupList = (currentList) => {
     })
 }
 
+//dragover list
 panel.addEventListener("dragover", e => {
   if (!currentItem || !currentItem.classList.contains("list") || !placeholder) return
   e.preventDefault()
   placeholder.style.width = "200px"
+
   const currentPos = findListLoc(panel, e.clientX)
   console.log(currentPos)
   if(currentPos) {
-  panel.insertBefore(placeholder, currentPos)
+  currentPos.after(placeholder)
   }
 })
 

@@ -108,7 +108,7 @@ const cardListen = () => {
             } )
             return
         }    
-        window.location.href = `board.html?id=${cardId}`
+        window.location.href = `board/${cardId}`
         
     })
     }

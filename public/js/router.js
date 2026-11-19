@@ -1,7 +1,8 @@
 import { getBoard } from './storage.js'
 
-export function board () {
-    const path = window.location.pathname
+const path = window.location.pathname
+
+export function board () {  
     if(path === '/') {
         return {
             page: 'home',

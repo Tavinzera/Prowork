@@ -39,8 +39,5 @@ export function cardsFunct(id, name, data) {
     })
 
     card.append(input, title, icons)
-
-    console.log("criado os card" + card)
     return card
-
 }
